@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 import LocationList from '../components/LocationList';
 
@@ -32,7 +33,11 @@ const DUMMY_DATA = [
 
 const UserLocations = props => {
 
-    return <LocationList items={DUMMY_DATA} />;
+    const userId = useParams().uid;
+    console.log("userId: ", userId);
+    const loadedLocations = DUMMY_DATA.filter(location => location.createdId === userId);
+
+    return <LocationList items={loadedLocations} />;
 
 };
 
