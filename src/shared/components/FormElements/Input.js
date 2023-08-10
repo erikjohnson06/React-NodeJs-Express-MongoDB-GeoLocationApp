@@ -25,8 +25,8 @@ const inputReducer = (state, action) => {
 const Input = props => {
 
     const [inputState, dispatch] = useReducer(inputReducer, {
-        value: '',
-        isValid: false,
+        value: props.value || '',
+        isValid: props.valid ||false,
         isTouched: false
     });
 
@@ -34,7 +34,7 @@ const Input = props => {
     const { value, isValid } = inputState;
 
     useEffect(() => {
-        onInput(id, value, isValid) //maps to NewLocation.titleInputHandler
+        onInput(id, value, isValid); //maps to NewLocation.titleInputHandler
     }, [id, value, isValid, onInput]);
 
     const changeHandler = event => {

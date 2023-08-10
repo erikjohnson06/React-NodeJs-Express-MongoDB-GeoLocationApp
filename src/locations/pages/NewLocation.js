@@ -6,7 +6,7 @@ import {
 VALIDATOR_REQUIRE,
         VALIDATOR_MINLENGTH
         } from '../../shared/util/validators';
-import './NewLocation.css';
+import './LocationForm.css';
 
 const formReducer = (state, action) => {
     switch (action.type) {
@@ -80,10 +80,10 @@ const NewLocation = props => {
                     element="textarea"
                     label="Description"
                     validators={[VALIDATOR_MINLENGTH(5)]}
-                    errorText="Please enter a valid description (minimum of 5 characters"
+                    errorText="Please enter a valid description (minimum of 5 characters)"
                     onInput={inputHandler}
                     />
-                    
+
                 <Input
                     id="address"
                     element="input"
