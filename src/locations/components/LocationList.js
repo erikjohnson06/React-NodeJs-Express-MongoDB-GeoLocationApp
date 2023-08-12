@@ -2,6 +2,7 @@ import React from 'react';
 
 import Card from '../../shared/components/UIElements/Card';
 import LocationItem from './LocationItem';
+import Button from '../../shared/components/FormElements/Button';
 import './LocationList.css';
 
 const LocationList = props => {
@@ -11,7 +12,7 @@ const LocationList = props => {
                 <div className="location-list center">
                     <Card>
                     <h2>No locations found</h2>
-                    <button>Share a Location</button>
+                    <Button to="/locations/new">Share a Location</Button>
                     </Card>
                 </div>
                 );

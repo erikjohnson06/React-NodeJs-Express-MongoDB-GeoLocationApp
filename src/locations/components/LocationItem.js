@@ -10,8 +10,18 @@ const LocationItem = props => {
 
     const [showMap, setShowMap] = useState(false);
 
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
     const openMapHandler = () => setShowMap(true);
     const closeMapHandler = () => setShowMap(false);
+
+    const showDeleteWarningHandler = () => setShowConfirmation(true);
+    const closeDeleteWarningHandler = () => setShowConfirmation(false);
+
+    const confirmDeleteHandler = () => {
+        setShowConfirmation(false);
+        console.log("Deleting...");
+    };
 
     return (
             <React.Fragment>
@@ -21,7 +31,9 @@ const LocationItem = props => {
                     header={props.address}
                     contentClass="location-item__modal-content"
                     footerClass="location-item__modal-actions"
-                    footer={<Button onClick={closeMapHandler}>Close</Button>}
+                    footer={
+                        <Button onClick={closeMapHandler}>Close</Button>
+                    }
                     >
                     <div className="map-container">
                         <Map
@@ -29,6 +41,22 @@ const LocationItem = props => {
                         zoom={16}
                         />
                     </div>
+                </Modal>
+
+                <Modal
+                    show={showConfirmation}
+                    onCancel={closeDeleteWarningHandler}
+                    header="Are you sure?"
+                    contentClass="location-item__modal-content"
+                    footerClass="location-item__modal-actions"
+                    footer={
+                        <React.Fragment>
+                            <Button inverse onClick={closeDeleteWarningHandler}>Cancel</Button>
+                            <Button danger onClick={confirmDeleteHandler}>Delete</Button>
+                        </React.Fragment>
+                    }
+                    >
+                    <p>You are about to permanently delete this location. Are you sure you wish to proceed?</p>
                 </Modal>
 
                 <li className="location-item">
@@ -44,7 +72,7 @@ const LocationItem = props => {
                     <div className="location-item__actions">
                         <Button inverse onClick={openMapHandler}>View on Map</Button>
                         <Button to={`/locations/${props.id}`}>Edit</Button>
-                        <Button danger>Delete</Button>
+                        <Button danger onClick={showDeleteWarningHandler}>Delete</Button>
                     </div>
                     </Card>
                 </li>

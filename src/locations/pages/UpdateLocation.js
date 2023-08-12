@@ -1,12 +1,15 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
+import Card from '../../shared/components/UIElements/Card';
+
 import {
     VALIDATOR_REQUIRE,
     VALIDATOR_MINLENGTH
 } from '../../shared/util/validators';
+import { useForm } from '../../shared/hooks/form-hooks';
 import './LocationForm.css';
 
 const DUMMY_DATA = [
@@ -37,52 +40,66 @@ const DUMMY_DATA = [
 
 ];
 
-/*
-
-import {
-VALIDATOR_REQUIRE,
-        VALIDATOR_MINLENGTH
-        } from '../../shared/util/validators';
-import './NewLocation.css';
-
-const formReducer = (state, action) => {
-    switch (action.type) {
-        case 'INPUT_CHANGE':
-
-            let formIsValid = true;
-            for (const inputId in state.inputs) {
-                if (inputId === action.inputId) {
-                    formIsValid = formIsValid && action.isValid;
-                } else {
-                    formIsValid = formIsValid && state.inputs[inputId].isValid;
-                }
-            }
-
-            return {
-                ...state,
-                inputs: {
-                    ...state.inputs,
-                    [action.inputId]: {value: action.value, isValid: action.isValid}
-                },
-                isValid: formIsValid
-            };
-        default:
-            return state;
-    }
-};
-*/
 const UpdateLocation = () => {
 
+    const [isLoading, setIsLoading] = useState(true);
     const locationId = useParams().locId;
+
+    const [formState, inputHandler, setFormData] = useForm({
+        title: {
+            value: '',
+            isValid: true
+        },
+        description: {
+            value: '',
+            isValid: true
+        },
+        address: {
+            value: '',
+            isValid: true
+            }
+    }, true);
 
     const location = DUMMY_DATA.find(l => l.id === locationId);
 
+    useEffect(() => {
+
+        if (location){
+            setFormData({
+                title: {
+                    value: location.title,
+                    isValid: true
+                },
+                description: {
+                    value: location.description,
+                    isValid: true
+                },
+                address: {
+                    value: location.address,
+                    isValid: true
+                    }
+            }, true);
+        }
+
+        setIsLoading(false);
+
+    }, [setFormData, location]);
+
+    const locationUpdateSubmitHandler = event => {
+        event.preventDefault();
+        console.log(formState.inputs);
+    };
+
     if (!location) {
-        return <div className="center"><h2>Unable to find this location</h2></div>;
+        return <div className="center"><Card><h2>Unable to find this location</h2></Card></div>;
+    }
+
+    if (isLoading){
+        return <div className="center"><Card><h2>Loading...</h2></Card></div>;
     }
 
     return (
-            <form className="location-form" onSubmit={() => {}}>
+            <form className="location-form" onSubmit={locationUpdateSubmitHandler}>
                 <Input
                     id="title"
                     element="input"
@@ -90,9 +107,9 @@ const UpdateLocation = () => {
                     label="Title"
                     validators={[VALIDATOR_REQUIRE()]}
                     errorText="Please enter a valid title"
-                    onInput={() => {}}
-                    value={location.title}
-                    valid={true}
+                    onInput={inputHandler}
+                    initialValue={formState.inputs.title.value}
+                    initialValid={formState.inputs.title.isValid}
                     />
                 <Input
                     id="description"
@@ -100,9 +117,9 @@ const UpdateLocation = () => {
                     label="Description"
                     validators={[VALIDATOR_MINLENGTH(5)]}
                     errorText="Please enter a valid description (minimum of 5 characters)"
-                    onInput={() => {}}
-                    value={location.description}
-                    valid={true}
+                    onInput={inputHandler}
+                    initialValue={formState.inputs.description.value}
+                    initialValid={formState.inputs.description.isValid}
                     />
                 <Input
                     id="address"
@@ -110,78 +127,13 @@ const UpdateLocation = () => {
                     label="Address"
                     validators={[VALIDATOR_REQUIRE()]}
                     errorText="Please enter a valid address"
-                    onInput={() => {}}
-                    value={location.address}
-                    valid={true}
+                    onInput={inputHandler}
+                    initialValue={formState.inputs.address.value}
+                    initialValid={formState.inputs.address.isValid}
                     />
-                <Button type="submit" disabled={true}>Update Location</Button>
+                <Button type="submit" disabled={!formState.isValid}>Update Location</Button>
             </form>
-            );
-
-
-
-/*
-    const [formState, dispatch] = useReducer(formReducer, {
-        inputs: {
-            title: {
-                value: '',
-                isValid: false
-            },
-            description: {
-                value: '',
-                isValid: false
-            }
-        },
-        isValid: false
-    });
-
-    const inputHandler = useCallback((id, value, isValid) => {
-        dispatch({
-            type: 'INPUT_CHANGE',
-            value: value,
-            isValid: isValid,
-            inputId: id
-        });
-    }, []);
-
-    const locationSubmitHandler = event => {
-        event.preventDefault();
-        console.log(formState.inputs);
-    };
-
-    return (
-            <form className="location-form" onSubmit={locationSubmitHandler}>
-                <Input
-                    id="title"
-                    element="input"
-                    type="text"
-                    label="Title"
-                    validators={[VALIDATOR_REQUIRE()]}
-                    errorText="Please enter a valid title"
-                    onInput={inputHandler}
-                    />
-                <Input
-                    id="description"
-                    element="textarea"
-                    label="Description"
-                    validators={[VALIDATOR_MINLENGTH(5)]}
-                    errorText="Please enter a valid description (minimum of 5 characters"
-                    onInput={inputHandler}
-                    />
-
-                <Input
-                    id="address"
-                    element="input"
-                    label="Address"
-                    validators={[VALIDATOR_REQUIRE()]}
-                    errorText="Please enter a valid address"
-                    onInput={inputHandler}
-                    />
-                <Button type="submit" disabled={!formState.isValid}>Add Location</Button>
-            </form>
-            );
-
- */
+        );
 };
 
 export default UpdateLocation;
