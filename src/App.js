@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
+import Auth from './users/pages/Auth';
 import Users from './users/pages/Users';
 import NewLocation from './locations/pages/NewLocation';
 import UpdateLocation from './locations/pages/UpdateLocation';
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path="/:uid/locations"  element={<UserLocations />} />
                 <Route path="/locations/new" exact="true" element={<NewLocation />} />
                 <Route path="/locations/:locId" element={<UpdateLocation />} />
+                <Route path="/login" exact="true" element={<Auth />} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </main>
