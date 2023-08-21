@@ -1,7 +1,4 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-
-import LocationList from '../components/LocationList';
+const HttpError = require('../models/http-error');
 
 const DUMMY_DATA = [
     {
@@ -28,17 +25,39 @@ const DUMMY_DATA = [
             lng: -73.9856644
         }
     }
-
 ];
 
-const UserLocations = props => {
+const getLocationById = (request, response, next) => {
 
-    const userId = useParams().uid;
-    console.log("userId: ", userId);
-    const loadedLocations = DUMMY_DATA.filter(location => location.createdBy === userId);
+    console.log('GET Request in locations');
 
-    return <LocationList items={loadedLocations} />;
+    const id = request.params.locationId;
+    const location = DUMMY_DATA.find(loc => {
+        return loc.id === id;
+    });
 
+    if (!location){
+        throw HttpError('Unable to find this location', 404);
+    }
+
+    response.json({location: location});
 };
 
-export default UserLocations;
+const getLocationsByUserId = (request, response, next) => {
+
+    console.log('GET Request in locations');
+
+    const id = request.params.userId;
+    const user = DUMMY_DATA.find(loc => {
+        return id === loc.createdBy;
+    });
+
+    if (!user){
+        return next(new HttpError('Unable to find this location', 404));
+    }
+
+    response.json({user: user});
+};
+
+exports.getLocationById = getLocationById;
+exports.getLocationsByUserId = getLocationsByUserId;
