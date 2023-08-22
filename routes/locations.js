@@ -11,4 +11,10 @@ router.get('/:locationId', locationsController.getLocationById);
 
 router.get('/user/:userId', locationsController.getLocationsByUserId);
 
+router.post('/', locationsController.createLocation);
+
+router.patch('/:locationId', locationsController.updateLocationById);
+
+router.delete('/:locationId', locationsController.deleteLocationById);
+
 module.exports = router;
