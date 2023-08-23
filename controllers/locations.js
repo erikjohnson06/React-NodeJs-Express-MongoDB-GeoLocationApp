@@ -1,9 +1,8 @@
-//const { v4: uuidv4 } = require('uuid'); //ID Generator
 const uuid = require('uuid'); //ID Generator
 
 const HttpError = require('../models/http-error');
 
-const DUMMY_DATA = [
+let DUMMY_DATA = [
     {
         id: 'p1',
         title: 'Test Location 1',
@@ -47,15 +46,15 @@ const getLocationById = (request, response, next) => {
 const getLocationsByUserId = (request, response, next) => {
 
     const id = request.params.userId;
-    const user = DUMMY_DATA.find(loc => {
+    const locations = DUMMY_DATA.filter(loc => {
         return id === loc.createdBy;
     });
 
-    if (!user){
-        return next(new HttpError('Unable to find this location', 404));
+    if (!locations || locations.length === 0){
+        return next(new HttpError('Unable to find locations', 404));
     }
 
-    response.json({user: user});
+    response.json({locations: locations});
 };
 
 const createLocation = (request, response, next) => {
@@ -99,6 +98,13 @@ const updateLocationById = (request, response, next) => {
 
 const deleteLocationById = (request, response, next) => {
 
+    const locationId = request.params.locationId;
+
+    DUMMY_DATA = DUMMY_DATA.filter(loc => loc.id !== locationId);
+
+    response.status(200).json({
+        message: "Location deleted"
+    });
 };
 
 exports.getLocationById = getLocationById;

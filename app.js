@@ -11,6 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/api/locations', locationRoutes); // => /api/locations/...
+app.use('/api/users', userRoutes);
 
 app.use((request, response, next) => {
     throw new HttpError('Unknown route', 404);
