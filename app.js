@@ -1,9 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
 const locationRoutes = require('./routes/locations');
 const userRoutes = require('./routes/users');
 const HttpError = require('./models/http-error');
+
+dotenv.config({path: './config.env'});
 
 const app = express();
 
@@ -30,4 +34,15 @@ app.use((error, request, response, next) => {
             });
 });
 
-app.listen(5000);
+//const DATABASE_LOCAL='mongodb://127.0.0.1:27017/nature_tours';
+//const DATABASE_PASSWORD='2BGrm8GXWIPP3cvP';
+
+mongoose
+        .connect(process.env.DATABASE_LOCAL)
+        .then(() => {
+            app.listen(5000);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+

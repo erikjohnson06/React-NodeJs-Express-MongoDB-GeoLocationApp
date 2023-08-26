@@ -7,4 +7,6 @@ React (v18) - custom hooks
 MongoDB
 Node
 Express
+Axios
 Google Maps API
+Google Geocoding API

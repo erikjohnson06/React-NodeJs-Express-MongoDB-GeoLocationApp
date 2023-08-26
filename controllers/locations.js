@@ -1,6 +1,9 @@
 const uuid = require('uuid'); //ID Generator
+const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error');
+const getCoordinatesForAddress = require('../util/locations');
+const LocationsModel = require('../models/locations');
 
 let DUMMY_DATA = [
     {
@@ -29,48 +32,111 @@ let DUMMY_DATA = [
     }
 ];
 
-const getLocationById = (request, response, next) => {
+const getLocationById = async (request, response, next) => {
 
     const id = request.params.locationId;
-    const location = DUMMY_DATA.find(loc => {
-        return loc.id === id;
-    });
+
+    let location;
+
+    try {
+        console.log("id: ", id);
+
+        location = await LocationsModel.findById(id).exec(); //exec returns a Promise
+
+//    const location = DUMMY_DATA.find(loc => {
+//        return loc.id === id;
+//    });
+
+
+    }
+    catch (e){
+        console.log(e);
+        return next(new HttpError('Something went wrong. Unable to find locations.', 500));
+    }
+
+
 
     if (!location){
-        throw new HttpError('Unable to find this location', 404);
+        return next(new HttpError('Unable to find this location', 404));
     }
 
     response.json({location: location});
 };
 
-const getLocationsByUserId = (request, response, next) => {
+const getLocationsByUserId = async (request, response, next) => {
 
     const id = request.params.userId;
-    const locations = DUMMY_DATA.filter(loc => {
-        return id === loc.createdBy;
-    });
+    let locations;
+
+    try {
+        console.log("id: ", id);
+
+        locations = await LocationsModel.find({
+            'createdBy': id
+        }).exec(); //exec returns a Promise
+
+        //    const locations = DUMMY_DATA.filter(loc => {
+        //        return id === loc.createdBy;
+        //    });
+    }
+    catch (e){
+        console.log(e);
+        return next(new HttpError('Something went wrong. Unable to find locations.', 500));
+    }
 
     if (!locations || locations.length === 0){
         return next(new HttpError('Unable to find locations', 404));
     }
 
-    response.json({locations: locations});
+    response.json({locations: locations.toObject({ getters: true })}); //getters => true converts "_id" property to "id"
 };
 
-const createLocation = (request, response, next) => {
+const createLocation = async (request, response, next) => {
 
-    const { title, description, coordinates, address, createdBy } = request.body;
+    //Check for validation errors based on middleware defined in routes
+    const errors = validationResult(request);
 
-    const newLocation = {
-        id: uuid.v4(),
+    if (!errors.isEmpty()){
+        console.error(errors);
+
+        if (typeof (errors.errors[0].path) !== "undefined"){
+            return next(new HttpError('Invalid input for new location. Please check the ' + errors.errors[0].path + " field.", 422));
+        }
+        else {
+            return next(new HttpError('Invalid input for new location.', 422));
+        }
+    }
+
+    const { title, description, address, createdBy } = request.body;
+
+    let coordinates;
+
+    try {
+        coordinates = await getCoordinatesForAddress(address);
+    }
+    catch (e){
+        return next(e);
+    }
+
+
+    const newLocation = new LocationsModel({
+        //id: uuid.v4(),
         title: title,
         description: description,
         coordinates: coordinates,
         address: address,
-        createdBy: createdBy
-    };
+        createdBy: createdBy,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg'
+    });
 
-    DUMMY_DATA.push(newLocation);
+    //DUMMY_DATA.push(newLocation);
+    try {
+        await newLocation.save();
+    }
+    catch (e){
+        console.log(e);
+        return next(new HttpError('Unable to save new location.', 500));
+    }
 
     response.status(201).json({
         location: newLocation
@@ -78,6 +144,19 @@ const createLocation = (request, response, next) => {
 };
 
 const updateLocationById = (request, response, next) => {
+
+    //Check for validation errors based on middleware defined in routes
+    const errors = validationResult(request);
+
+    if (!errors.isEmpty()){
+        console.error(errors);
+        if (typeof (errors.errors[0].path) !== "undefined"){
+            throw new HttpError('Invalid input for location. Please check the ' + errors.errors[0].path + " field.", 422);
+        }
+        else {
+            throw new HttpError('Invalid input for location.', 422);
+        }
+    }
 
     const { title, description } = request.body;
 
@@ -99,6 +178,10 @@ const updateLocationById = (request, response, next) => {
 const deleteLocationById = (request, response, next) => {
 
     const locationId = request.params.locationId;
+
+    if (!DUMMY_DATA.find(loc => loc.id !== locationId)){
+        throw new HttpError('Unable to find location.', 404);
+    }
 
     DUMMY_DATA = DUMMY_DATA.filter(loc => loc.id !== locationId);
 

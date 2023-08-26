@@ -1,4 +1,5 @@
 const uuid = require('uuid'); //ID Generator
+const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error');
 
@@ -22,6 +23,20 @@ const getUsers = (request, response, next) => {
 };
 
 const registerNewUser = (request, response, next) => {
+
+    //Check for validation errors based on middleware defined in routes
+    const errors = validationResult(request);
+
+    if (!errors.isEmpty()){
+        console.error(errors, errors.errors[0].path);
+
+        if (typeof (errors.errors[0].path) !== "undefined"){
+            throw new HttpError('Invalid input. Please check the ' + errors.errors[0].path + " field.", 422);
+        }
+        else {
+            throw new HttpError('Invalid input', 422);
+        }
+    }
 
     const { name, email, password } = request.body;
 
