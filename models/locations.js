@@ -14,10 +14,6 @@ const locationsSchema = new Schema({
             type: String,
             required: true
         },
-        createdBy: {
-            type: String,
-            required: true
-        },
         address: {
             type: String,
             required: true
@@ -31,7 +27,33 @@ const locationsSchema = new Schema({
                 type: Number,
                 required: true
             }
+        },
+        createdBy: {
+            type: String,
+            required: true
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now()
+        },
+        updatedBy: {
+            type: String,
+            default: null
+        },
+        lastUpdated: {
+            type: Date,
+            default: Date.now()
+        },
+        isActive: {
+            type: Boolean,
+            default: true
         }
-});
+    },
+    {
+        //Options
+        toJSON: {virtuals: true},
+        toObject: {virtuals: true}
+    }
+);
 
 module.exports = mongoose.model('Locations', locationsSchema);

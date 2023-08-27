@@ -54,13 +54,13 @@ const getLocationById = async (request, response, next) => {
         return next(new HttpError('Something went wrong. Unable to find locations.', 500));
     }
 
-
-
     if (!location){
         return next(new HttpError('Unable to find this location', 404));
     }
 
-    response.json({location: location});
+    response.json({
+        location: location //.toObject({ getters: true })
+    });
 };
 
 const getLocationsByUserId = async (request, response, next) => {
@@ -72,8 +72,9 @@ const getLocationsByUserId = async (request, response, next) => {
         console.log("id: ", id);
 
         locations = await LocationsModel.find({
-            'createdBy': id
-        }).exec(); //exec returns a Promise
+            createdBy: id,
+            isActive: true //search active locations only
+        });
 
         //    const locations = DUMMY_DATA.filter(loc => {
         //        return id === loc.createdBy;
@@ -88,7 +89,8 @@ const getLocationsByUserId = async (request, response, next) => {
         return next(new HttpError('Unable to find locations', 404));
     }
 
-    response.json({locations: locations.toObject({ getters: true })}); //getters => true converts "_id" property to "id"
+    //response.json({locations: locations.map(loc => loc.toObject({ getters: true })) }); //getters => true converts "_id" property to "id"
+    response.json({locations: locations });
 };
 
 const createLocation = async (request, response, next) => {
@@ -118,7 +120,6 @@ const createLocation = async (request, response, next) => {
         return next(e);
     }
 
-
     const newLocation = new LocationsModel({
         //id: uuid.v4(),
         title: title,
@@ -126,6 +127,8 @@ const createLocation = async (request, response, next) => {
         coordinates: coordinates,
         address: address,
         createdBy: createdBy,
+        createdAt: Date.now(),
+        isActive: true,
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg'
     });
 
@@ -139,11 +142,11 @@ const createLocation = async (request, response, next) => {
     }
 
     response.status(201).json({
-        location: newLocation
+        location: newLocation //.toObject({ getters: true })
     });
 };
 
-const updateLocationById = (request, response, next) => {
+const updateLocationById = async (request, response, next) => {
 
     //Check for validation errors based on middleware defined in routes
     const errors = validationResult(request);
@@ -161,32 +164,69 @@ const updateLocationById = (request, response, next) => {
     const { title, description } = request.body;
 
     const locationId = request.params.locationId;
+    let updatedLocation;
 
-    const updatedLocation = { ... DUMMY_DATA.find( loc => loc.id === locationId) }; //Create copy of object initially
-    const index = DUMMY_DATA.find( loc => loc.id === locationId);
+    try {
+        //const updatedLocation = { ... DUMMY_DATA.find( loc => loc.id === locationId) }; //Create copy of object initially
+        //const index = DUMMY_DATA.find( loc => loc.id === locationId);
 
-    updatedLocation.title = title;
-    updatedLocation.description = description;
+        updatedLocation = await LocationsModel.findById(locationId);
 
-    DUMMY_DATA[index] = updatedLocation;
+        if (!updatedLocation){
+            return next(new HttpError('Unable to find location', 404));
+        }
+
+        updatedLocation.title = title;
+        updatedLocation.description = description;
+        updatedLocation.lastUpdated = Date.now();
+
+        await updatedLocation.save();
+
+        //DUMMY_DATA[index] = updatedLocation;
+    }
+    catch(e){
+        console.log(e);
+        return next(new HttpError('Unable to update location.', 500));
+    }
 
     response.status(200).json({
-        location: updatedLocation
+        location: updatedLocation //.toObject({ getters: true })
     });
 };
 
-const deleteLocationById = (request, response, next) => {
+const deleteLocationById = async (request, response, next) => {
 
     const locationId = request.params.locationId;
 
-    if (!DUMMY_DATA.find(loc => loc.id !== locationId)){
-        throw new HttpError('Unable to find location.', 404);
+    let location;
+
+    try {
+        location = await LocationsModel.findById(locationId);
+
+        if (!location){
+            return next(new HttpError('Unable to find location', 404));
+        }
+
+        //await location.remove();
+
+        location.isActive = true;
+        await location.save();
+
+//    if (!DUMMY_DATA.find(loc => loc.id !== locationId)){
+//        throw new HttpError('Unable to find location.', 404);
+//    }
+//
+//    DUMMY_DATA = DUMMY_DATA.filter(loc => loc.id !== locationId);
+
+    }
+    catch(e){
+        console.log(e);
+        return next(new HttpError('Unable to delete location.', 500));
     }
 
-    DUMMY_DATA = DUMMY_DATA.filter(loc => loc.id !== locationId);
-
     response.status(200).json({
-        message: "Location deleted"
+        message: "Location deleted",
+        location: location
     });
 };
 
