@@ -3,34 +3,34 @@ const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error');
 const getCoordinatesForAddress = require('../util/locations');
-const LocationsModel = require('../models/locations');
+const LocationModel = require('../models/location');
 
-let DUMMY_DATA = [
-    {
-        id: 'p1',
-        title: 'Test Location 1',
-        description: 'A really famous and amazing location!',
-        createdBy: 'u1',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg',
-        address: '20 W 34th St., New York, NY 10001',
-        coordinates: {
-            lat: 40.7484405,
-            lng: -73.9856644
-        }
-    },
-    {
-        id: 'p2',
-        title: 'Test Location 2',
-        description: 'A really famous and amazing location!',
-        createdBy: 'u2',
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg',
-        address: '20 W 34th St., New York, NY 10001',
-        coordinates: {
-            lat: 40.7484405,
-            lng: -73.9856644
-        }
-    }
-];
+//let DUMMY_DATA = [
+//    {
+//        id: 'p1',
+//        title: 'Test Location 1',
+//        description: 'A really famous and amazing location!',
+//        createdBy: 'u1',
+//        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg',
+//        address: '20 W 34th St., New York, NY 10001',
+//        coordinates: {
+//            lat: 40.7484405,
+//            lng: -73.9856644
+//        }
+//    },
+//    {
+//        id: 'p2',
+//        title: 'Test Location 2',
+//        description: 'A really famous and amazing location!',
+//        createdBy: 'u2',
+//        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg',
+//        address: '20 W 34th St., New York, NY 10001',
+//        coordinates: {
+//            lat: 40.7484405,
+//            lng: -73.9856644
+//        }
+//    }
+//];
 
 const getLocationById = async (request, response, next) => {
 
@@ -41,13 +41,7 @@ const getLocationById = async (request, response, next) => {
     try {
         console.log("id: ", id);
 
-        location = await LocationsModel.findById(id).exec(); //exec returns a Promise
-
-//    const location = DUMMY_DATA.find(loc => {
-//        return loc.id === id;
-//    });
-
-
+        location = await LocationModel.findById(id).exec(); //exec returns a Promise
     }
     catch (e){
         console.log(e);
@@ -71,14 +65,10 @@ const getLocationsByUserId = async (request, response, next) => {
     try {
         console.log("id: ", id);
 
-        locations = await LocationsModel.find({
+        locations = await LocationModel.find({
             createdBy: id,
             isActive: true //search active locations only
         });
-
-        //    const locations = DUMMY_DATA.filter(loc => {
-        //        return id === loc.createdBy;
-        //    });
     }
     catch (e){
         console.log(e);
@@ -120,7 +110,7 @@ const createLocation = async (request, response, next) => {
         return next(e);
     }
 
-    const newLocation = new LocationsModel({
+    const newLocation = new LocationModel({
         //id: uuid.v4(),
         title: title,
         description: description,
@@ -132,7 +122,6 @@ const createLocation = async (request, response, next) => {
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg'
     });
 
-    //DUMMY_DATA.push(newLocation);
     try {
         await newLocation.save();
     }
@@ -167,10 +156,7 @@ const updateLocationById = async (request, response, next) => {
     let updatedLocation;
 
     try {
-        //const updatedLocation = { ... DUMMY_DATA.find( loc => loc.id === locationId) }; //Create copy of object initially
-        //const index = DUMMY_DATA.find( loc => loc.id === locationId);
-
-        updatedLocation = await LocationsModel.findById(locationId);
+        updatedLocation = await LocationModel.findById(locationId);
 
         if (!updatedLocation){
             return next(new HttpError('Unable to find location', 404));
@@ -181,8 +167,6 @@ const updateLocationById = async (request, response, next) => {
         updatedLocation.lastUpdated = Date.now();
 
         await updatedLocation.save();
-
-        //DUMMY_DATA[index] = updatedLocation;
     }
     catch(e){
         console.log(e);
@@ -201,7 +185,7 @@ const deleteLocationById = async (request, response, next) => {
     let location;
 
     try {
-        location = await LocationsModel.findById(locationId);
+        location = await LocationModel.findById(locationId);
 
         if (!location){
             return next(new HttpError('Unable to find location', 404));
@@ -211,13 +195,6 @@ const deleteLocationById = async (request, response, next) => {
 
         location.isActive = true;
         await location.save();
-
-//    if (!DUMMY_DATA.find(loc => loc.id !== locationId)){
-//        throw new HttpError('Unable to find location.', 404);
-//    }
-//
-//    DUMMY_DATA = DUMMY_DATA.filter(loc => loc.id !== locationId);
-
     }
     catch(e){
         console.log(e);
