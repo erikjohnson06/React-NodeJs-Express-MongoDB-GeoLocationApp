@@ -143,10 +143,10 @@ const updateLocationById = async (request, response, next) => {
     if (!errors.isEmpty()){
         console.error(errors);
         if (typeof (errors.errors[0].path) !== "undefined"){
-            throw new HttpError('Invalid input for location. Please check the ' + errors.errors[0].path + " field.", 422);
+            return next(new HttpError('Invalid input for location. Please check the ' + errors.errors[0].path + " field.", 422));
         }
         else {
-            throw new HttpError('Invalid input for location.', 422);
+            return next(new HttpError('Invalid input for location.', 422));
         }
     }
 

@@ -21,12 +21,11 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Password is required'],
         maxlength: [50, 'Passwords are limited to 50 characters'],
-        minlength: [8, 'Passwords must be at least 8 characters'],
-        select: false //Prevents field from appearing in output
+        minlength: [8, 'Passwords must be at least 8 characters']
+        //select: false //Prevents field from appearing in output
     },
     image: {
-        type: String,
-        required: true
+        type: String
     },
     locations: {
         type: Array
@@ -44,11 +43,11 @@ const userSchema = new Schema({
         default: true
     }
 },
-        {
-            //Options
-            toJSON: {virtuals: true},
-            toObject: {virtuals: true}
-        }
+    {
+        //Options
+        toJSON: {virtuals: true},
+        toObject: {virtuals: true}
+    }
 );
 
 userSchema.plugin(uniqueValidator);
