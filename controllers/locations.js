@@ -1,9 +1,11 @@
 const uuid = require('uuid'); //ID Generator
 const { validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 const HttpError = require('../models/http-error');
 const getCoordinatesForAddress = require('../util/locations');
 const LocationModel = require('../models/location');
+const UserModel = require('../models/user');
 
 //let DUMMY_DATA = [
 //    {
@@ -102,12 +104,29 @@ const createLocation = async (request, response, next) => {
     const { title, description, address, createdBy } = request.body;
 
     let coordinates;
+    let user;
 
     try {
         coordinates = await getCoordinatesForAddress(address);
     }
     catch (e){
         return next(e);
+    }
+
+//    try {
+//        user = await UserModel.findById(createdBy);
+//    }
+//    catch (e){
+//        console.log(e);
+//        return next(new HttpError('Unable to save location. Invalid User.', 500));
+//    }
+
+    user = await UserModel.findById(createdBy);
+
+    console.log(user);
+
+    if (!user){
+        return next(new HttpError('Unable to save location. Invalid User.', 404));
     }
 
     const newLocation = new LocationModel({
@@ -123,7 +142,19 @@ const createLocation = async (request, response, next) => {
     });
 
     try {
-        await newLocation.save();
+
+        //Save location with a transaction. Rollback in the case of errors.
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
+        await newLocation.save({ session: session});
+
+        //Refer to location in user model
+        user.locations.push(newLocation);
+        await user.save({ session: session});
+
+        //Commit updates
+        await session.commitTransaction();
     }
     catch (e){
         console.log(e);

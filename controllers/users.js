@@ -4,15 +4,6 @@ const { validationResult } = require('express-validator');
 const HttpError = require('../models/http-error');
 const UserModel = require('../models/user');
 
-//let DUMMY_DATA = [
-//    {
-//        id: 'u1',
-//        name: 'Test Guy',
-//        email: 'test1@tester.com',
-//        'password': 'test123'
-//    }
-//];
-
 const getUsers = async (request, response, next) => {
 
     let users;
@@ -50,7 +41,7 @@ const registerNewUser = async (request, response, next) => {
         }
     }
 
-    const { name, email, password, locations, image } = request.body;
+    const { name, email, password, image } = request.body;
     let user;
 
     try {
@@ -75,7 +66,7 @@ const registerNewUser = async (request, response, next) => {
         email: email,
         password: password,
         image: image,
-        locations: locations,
+        locations: [],
         createdAt: Date.now(),
         isActive: true
     });

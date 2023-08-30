@@ -28,7 +28,13 @@ const userSchema = new Schema({
         type: String
     },
     locations: {
-        type: Array
+        type: [
+            {
+                type: mongoose.Types.ObjectId,
+                ref: 'Location',
+                required: true
+            }
+        ]
     },
     createdAt: {
         type: Date,

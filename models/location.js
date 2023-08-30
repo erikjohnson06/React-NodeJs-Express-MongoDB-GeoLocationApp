@@ -29,7 +29,8 @@ const locationSchema = new Schema({
             }
         },
         createdBy: {
-            type: String,
+            type: mongoose.Types.ObjectId,
+            ref: 'User',
             required: true
         },
         createdAt: {
