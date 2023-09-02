@@ -1,38 +1,11 @@
 const uuid = require('uuid'); //ID Generator
-const { validationResult } = require('express-validator');
+const {validationResult} = require('express-validator');
 const mongoose = require('mongoose');
 
 const HttpError = require('../models/http-error');
 const getCoordinatesForAddress = require('../util/locations');
 const LocationModel = require('../models/location');
 const UserModel = require('../models/user');
-
-//let DUMMY_DATA = [
-//    {
-//        id: 'p1',
-//        title: 'Test Location 1',
-//        description: 'A really famous and amazing location!',
-//        createdBy: 'u1',
-//        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg',
-//        address: '20 W 34th St., New York, NY 10001',
-//        coordinates: {
-//            lat: 40.7484405,
-//            lng: -73.9856644
-//        }
-//    },
-//    {
-//        id: 'p2',
-//        title: 'Test Location 2',
-//        description: 'A really famous and amazing location!',
-//        createdBy: 'u2',
-//        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg',
-//        address: '20 W 34th St., New York, NY 10001',
-//        coordinates: {
-//            lat: 40.7484405,
-//            lng: -73.9856644
-//        }
-//    }
-//];
 
 const getLocationById = async (request, response, next) => {
 
@@ -41,21 +14,18 @@ const getLocationById = async (request, response, next) => {
     let location;
 
     try {
-        console.log("id: ", id);
-
-        location = await LocationModel.findById(id).exec(); //exec returns a Promise
-    }
-    catch (e){
+        location = await LocationModel.findById(id).exec(); //Note: 'exec' returns a Promise
+    } catch (e) {
         console.log(e);
         return next(new HttpError('Something went wrong. Unable to find locations.', 500));
     }
 
-    if (!location){
+    if (!location) {
         return next(new HttpError('Unable to find this location', 404));
     }
 
     response.json({
-        location: location //.toObject({ getters: true })
+        location: location
     });
 };
 
@@ -65,24 +35,20 @@ const getLocationsByUserId = async (request, response, next) => {
     let locations;
 
     try {
-        console.log("id: ", id);
-
         locations = await LocationModel.find({
             createdBy: id,
             isActive: true //search active locations only
         });
-    }
-    catch (e){
+    } catch (e) {
         console.log(e);
         return next(new HttpError('Something went wrong. Unable to find locations.', 500));
     }
 
-    if (!locations || locations.length === 0){
+    if (!locations || locations.length === 0) {
         return next(new HttpError('Unable to find locations', 404));
     }
 
-    //response.json({locations: locations.map(loc => loc.toObject({ getters: true })) }); //getters => true converts "_id" property to "id"
-    response.json({locations: locations });
+    response.json({locations: locations});
 };
 
 const createLocation = async (request, response, next) => {
@@ -90,42 +56,30 @@ const createLocation = async (request, response, next) => {
     //Check for validation errors based on middleware defined in routes
     const errors = validationResult(request);
 
-    if (!errors.isEmpty()){
+    if (!errors.isEmpty()) {
         console.error(errors);
 
-        if (typeof (errors.errors[0].path) !== "undefined"){
+        if (typeof (errors.errors[0].path) !== "undefined") {
             return next(new HttpError('Invalid input for new location. Please check the ' + errors.errors[0].path + " field.", 422));
-        }
-        else {
+        } else {
             return next(new HttpError('Invalid input for new location.', 422));
         }
     }
 
-    const { title, description, address, createdBy } = request.body;
+    const {title, description, address, createdBy} = request.body;
 
     let coordinates;
     let user;
 
     try {
         coordinates = await getCoordinatesForAddress(address);
-    }
-    catch (e){
+    } catch (e) {
         return next(e);
     }
 
-//    try {
-//        user = await UserModel.findById(createdBy);
-//    }
-//    catch (e){
-//        console.log(e);
-//        return next(new HttpError('Unable to save location. Invalid User.', 500));
-//    }
-
     user = await UserModel.findById(createdBy);
 
-    console.log(user);
-
-    if (!user){
+    if (!user) {
         return next(new HttpError('Unable to save location. Invalid User.', 404));
     }
 
@@ -144,19 +98,18 @@ const createLocation = async (request, response, next) => {
     try {
 
         //Save location with a transaction. Rollback in the case of errors.
-        const session = await mongoose.startSession();
-        session.startTransaction();
+        //const session = await mongoose.startSession();
+        //session.startTransaction();
 
-        await newLocation.save({ session: session});
+        await newLocation.save(); //{ session: session}
 
         //Refer to location in user model
         user.locations.push(newLocation);
-        await user.save({ session: session});
+        await user.save(); //{ session: session}
 
         //Commit updates
-        await session.commitTransaction();
-    }
-    catch (e){
+        //await session.commitTransaction();
+    } catch (e) {
         console.log(e);
         return next(new HttpError('Unable to save new location.', 500));
     }
@@ -171,17 +124,16 @@ const updateLocationById = async (request, response, next) => {
     //Check for validation errors based on middleware defined in routes
     const errors = validationResult(request);
 
-    if (!errors.isEmpty()){
+    if (!errors.isEmpty()) {
         console.error(errors);
-        if (typeof (errors.errors[0].path) !== "undefined"){
+        if (typeof (errors.errors[0].path) !== "undefined") {
             return next(new HttpError('Invalid input for location. Please check the ' + errors.errors[0].path + " field.", 422));
-        }
-        else {
+        } else {
             return next(new HttpError('Invalid input for location.', 422));
         }
     }
 
-    const { title, description } = request.body;
+    const {title, description} = request.body;
 
     const locationId = request.params.locationId;
     let updatedLocation;
@@ -189,7 +141,7 @@ const updateLocationById = async (request, response, next) => {
     try {
         updatedLocation = await LocationModel.findById(locationId);
 
-        if (!updatedLocation){
+        if (!updatedLocation) {
             return next(new HttpError('Unable to find location', 404));
         }
 
@@ -198,8 +150,7 @@ const updateLocationById = async (request, response, next) => {
         updatedLocation.lastUpdated = Date.now();
 
         await updatedLocation.save();
-    }
-    catch(e){
+    } catch (e) {
         console.log(e);
         return next(new HttpError('Unable to update location.', 500));
     }
@@ -216,18 +167,27 @@ const deleteLocationById = async (request, response, next) => {
     let location;
 
     try {
-        location = await LocationModel.findById(locationId);
+        location = await LocationModel.findById(locationId).populate('createdBy'); //populate provide the full User object linked to this location
 
-        if (!location){
+        if (!location) {
             return next(new HttpError('Unable to find location', 404));
         }
 
-        //await location.remove();
+        //const session = await mongoose.startSession();
+        //session.startTransaction();
 
-        location.isActive = true;
-        await location.save();
-    }
-    catch(e){
+        await location.deleteOne();
+
+        //location.isActive = false;
+        //await location.save(); //{ session: session}
+
+        location.createdBy.locations.pull(location); //Pull removes the place from the user
+
+        await location.createdBy.save(); //{ session: session}
+
+        //Commit updates
+        //await session.commitTransaction();
+    } catch (e) {
         console.log(e);
         return next(new HttpError('Unable to delete location.', 500));
     }

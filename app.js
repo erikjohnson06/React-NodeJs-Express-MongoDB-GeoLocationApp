@@ -14,6 +14,14 @@ const app = express();
 //Parse JSON data
 app.use(bodyParser.json());
 
+//Set CORS headers
+app.use((request, response, next) => {
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+    next();
+});
+
 app.use('/api/locations', locationRoutes); // => /api/locations/...
 app.use('/api/users', userRoutes);
 

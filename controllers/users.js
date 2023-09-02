@@ -1,4 +1,4 @@
-const uuid = require('uuid'); //ID Generator
+//const uuid = require('uuid'); //ID Generator
 const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error');
@@ -31,7 +31,7 @@ const registerNewUser = async (request, response, next) => {
     const errors = validationResult(request);
 
     if (!errors.isEmpty()){
-        console.error(errors, errors.errors[0].path);
+        console.error(errors);
 
         if (typeof (errors.errors[0].path) !== "undefined"){
             return next(new HttpError('Invalid input. Please check the ' + errors.errors[0].path + " field.", 422));
@@ -46,7 +46,6 @@ const registerNewUser = async (request, response, next) => {
 
     try {
 
-        //const user = DUMMY_DATA.find(u => u.email === email);
         user = await UserModel.findOne({
             'email' : email
         });
@@ -79,8 +78,6 @@ const registerNewUser = async (request, response, next) => {
         return next(new HttpError('Unable to create new account at this time.', 500));
     }
 
-    //DUMMY_DATA.push(newUser);
-
     response.status(201).json({
         user: newUser
     });
@@ -94,7 +91,6 @@ const login = async (request, response, next) => {
 
     try {
 
-        //const user = DUMMY_DATA.find(u => u.email === email);
         user = await UserModel.findOne({
             'email' : email
         });
@@ -111,7 +107,8 @@ const login = async (request, response, next) => {
     }
 
     response.json({
-        message: 'You have signed in successfully!'
+        message: 'You have signed in successfully!',
+        user: user
     });
 };
 
