@@ -91,7 +91,9 @@ const Auth = () => {
 
             try {
 
-                const response = await fetch(
+                console.log("formState.inputs: ", formState.inputs);
+
+                const response = await sendRequest(
                     'http://localhost:5000/api/users/signup',
                     'POST',
                     JSON.stringify({
@@ -104,7 +106,7 @@ const Auth = () => {
                     }
                 );
 
-                console.log("response.user.id: ", response.user.id);
+                console.log("response: ", response);
 
                 auth.login(response.user.id);
             }

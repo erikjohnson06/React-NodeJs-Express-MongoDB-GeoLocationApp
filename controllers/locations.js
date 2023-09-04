@@ -21,6 +21,7 @@ const getLocationById = async (request, response, next) => {
     }
 
     if (!location) {
+        console.log(id, location);
         return next(new HttpError('Unable to find this location', 404));
     }
 
@@ -34,6 +35,8 @@ const getLocationsByUserId = async (request, response, next) => {
     const id = request.params.userId;
     let locations;
 
+    console.log("getLocationsByUserId: ", id);
+
     try {
         locations = await LocationModel.find({
             createdBy: id,
@@ -43,6 +46,8 @@ const getLocationsByUserId = async (request, response, next) => {
         console.log(e);
         return next(new HttpError('Something went wrong. Unable to find locations.', 500));
     }
+
+    console.log("getLocationsByUserId locations: ", locations);
 
     if (!locations || locations.length === 0) {
         return next(new HttpError('Unable to find locations', 404));

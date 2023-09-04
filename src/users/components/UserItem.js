@@ -6,6 +6,8 @@ import Card from '../../shared/components/UIElements/Card';
 import './UserItem.css';
 
 const UserItem = props => {
+
+    console.log("UserItem props:", props);
     return (
         <li className="user-item">
             <Card className="user-item__content">
@@ -16,7 +18,7 @@ const UserItem = props => {
                     <div className="user-item__info">
                         <h2>{props.name}</h2>
                         <h3>
-                            {props.locationsCount} {props.locationsCount === 1 ? 'Location' : 'Locations'}
+                            {props.locationCount} {props.locationCount === 1 ? 'Location' : 'Locations'}
                         </h3>
                     </div>
                 </Link>

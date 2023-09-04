@@ -20,6 +20,9 @@ const getUsers = async (request, response, next) => {
         return next(new HttpError('Something went wrong. Unable to fetch users.', 500));
     }
 
+
+    console.log("Getting users...", users);
+
     response.json({
         users: users
     });

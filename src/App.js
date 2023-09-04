@@ -31,7 +31,6 @@ const App = () => {
             <Routes>
                 <Route path="/" exact="true" element={<Users />} />
                 <Route path="/:uid/locations"  element={<UserLocations />} />
-                <Route path="/:uid/locations"  element={<UserLocations />} />
                 <Route path="/locations/new" exact="true" element={<NewLocation />} />
                 <Route path="/locations/:locId" element={<UpdateLocation />} />
                 <Route path="*" element={<Navigate to="/" />} />
