@@ -65,12 +65,14 @@ const UserLocations = props => {
 
     }, [sendRequest, userId]);
 
-    //const loadedLocations = DUMMY_DATA.filter(location => location.createdBy === userId);
+    const deleteLocationHandler = (id) => {
+        setLoadedLocations(locations => locations.filter(loc => loc.id !== id));
+    };
 
     return (<React.Fragment>
                 <ErrorModal error={hasError} onClear={clearError} />
                 {isLoading && <div className="center"><LoadingSpinner /></div>}
-                {!isLoading && loadedLocations && <LocationList items={loadedLocations} />}
+                {!isLoading && loadedLocations && <LocationList items={loadedLocations} onDeleteLocation={deleteLocationHandler} />}
             </React.Fragment>
             );
 

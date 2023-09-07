@@ -1,16 +1,21 @@
 import React, { useState, useContext } from 'react';
 
-import { AuthContext } from '../../shared/context/auth-context';
 import Button from '../../shared/components/FormElements/Button';
 import Card from '../../shared/components/UIElements/Card';
 import Map from '../../shared/components/UIElements/Map';
 import Modal from '../../shared/components/UIElements/Modal';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+
+import { AuthContext } from '../../shared/context/auth-context';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+
 import './LocationItem.css';
 
 const LocationItem = props => {
 
     const auth = useContext(AuthContext);
-
+    const { isLoading, hasError, sendRequest, clearError } = useHttpClient();
     const [showMap, setShowMap] = useState(false);
 
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -21,13 +26,28 @@ const LocationItem = props => {
     const showDeleteWarningHandler = () => setShowConfirmation(true);
     const closeDeleteWarningHandler = () => setShowConfirmation(false);
 
-    const confirmDeleteHandler = () => {
+    const confirmDeleteHandler = async () => {
         setShowConfirmation(false);
-        console.log("Deleting...");
+
+        try {
+
+            await sendRequest(
+                    `http://localhost:5000/api/locations/${props.id}`,
+                    'DELETE'
+                );
+
+            props.onDelete(props.id);
+
+            //Redirect to user locations
+            //navigate('/' + auth.userId + '/locations');
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     return (
             <React.Fragment>
+                <ErrorModal error={hasError} onClear={clearError} />
                 <Modal
                     show={showMap}
                     onCancel={closeMapHandler}
@@ -64,6 +84,7 @@ const LocationItem = props => {
 
                 <li className="location-item">
                     <Card className="location-item__content">
+                    {isLoading && <LoadingSpinner asOverlay />}
                     <div className="location-item__image">
                         <img src={props.image} alt={props.title} />
                     </div>
