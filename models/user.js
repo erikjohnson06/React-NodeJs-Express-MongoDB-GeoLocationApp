@@ -20,7 +20,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        maxlength: [50, 'Passwords are limited to 50 characters'],
+        maxlength: [128, 'Passwords are limited to 128 characters'],
         minlength: [8, 'Passwords must be at least 8 characters']
         //select: false //Prevents field from appearing in output
     },

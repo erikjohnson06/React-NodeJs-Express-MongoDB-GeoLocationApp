@@ -1,5 +1,5 @@
-//const uuid = require('uuid'); //ID Generator
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
 
 const HttpError = require('../models/http-error');
 const UserModel = require('../models/user');
@@ -47,12 +47,15 @@ const registerNewUser = async (request, response, next) => {
     const { name, email, password } = request.body;
     let user;
     let image = request.file.path || null;
+    let hashedPassword;
 
     try {
 
         user = await UserModel.findOne({
             'email' : email
         });
+
+        hashedPassword = await bcrypt.hash(password, 12);
     }
     catch(e){
         console.log(e);
@@ -70,10 +73,9 @@ const registerNewUser = async (request, response, next) => {
     console.log(request.protocol, request.get('host'));
 
     const newUser = new UserModel({
-        //id: uuid.v4(),
         name: name,
         email: email,
-        password: password,
+        password: hashedPassword,
         image: image,
         locations: [],
         createdAt: Date.now(),
@@ -98,6 +100,7 @@ const login = async (request, response, next) => {
     const { email, password } = request.body;
 
     let user;
+    let isValidPassword = false;
 
     try {
 
@@ -112,8 +115,20 @@ const login = async (request, response, next) => {
 
     console.log(user);
 
-    if (!user || user.password !== password){
+    if (!user){
         return next(new HttpError('Unable to find this user account or email/password is not correct', 401));
+    }
+
+    try {
+        isValidPassword = await bcrypt.compare(password, user.password);
+    }
+    catch(e){
+        console.log(e);
+        return next(new HttpError('Something went wrong. Unable to sign in at this time.', 500));
+    }
+
+    if (!isValidPassword){
+        throw new HttpError('Whoops.. email or password is not correct. Please try again.', 401);
     }
 
     response.json({
