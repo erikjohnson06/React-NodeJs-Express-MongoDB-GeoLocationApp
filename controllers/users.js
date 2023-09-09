@@ -44,8 +44,9 @@ const registerNewUser = async (request, response, next) => {
         }
     }
 
-    const { name, email, password, image } = request.body;
+    const { name, email, password } = request.body;
     let user;
+    let image = request.file.path || null;
 
     try {
 
@@ -61,6 +62,12 @@ const registerNewUser = async (request, response, next) => {
     if (user){
         return next(new HttpError('This email address is already registered. Please use a different email.', 422));
     }
+
+    if (!image){
+        return next(new HttpError('Please upload a profile image.', 405));
+    }
+
+    console.log(request.protocol, request.get('host'));
 
     const newUser = new UserModel({
         //id: uuid.v4(),

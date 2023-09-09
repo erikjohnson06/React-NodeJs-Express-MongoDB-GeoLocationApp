@@ -4,6 +4,7 @@ import Card from '../../shared/components/UIElements/Card';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
 
@@ -40,7 +41,8 @@ const Auth = () => {
         if (!isLoginMode){
             setFormData({
                 ...formState.inputs,
-                name: undefined
+                name: undefined,
+                image: undefined
             },
             (formState.inputs.email.isValid && formState.inputs.password.isValid));
         }
@@ -49,6 +51,10 @@ const Auth = () => {
                 ...formState.inputs,
                 name: {
                     value: '',
+                    isValid: false
+                },
+                image : {
+                    value: null,
                     isValid: false
                 }
             },
@@ -62,8 +68,6 @@ const Auth = () => {
     const authSubmitHandler = async event => {
         event.preventDefault();
         console.log(formState.inputs);
-
-        //setIsLoading(true);
 
         if (isLoginMode){
 
@@ -91,19 +95,18 @@ const Auth = () => {
 
             try {
 
+                const formData = new FormData();
+                formData.append('name', formState.inputs.name.value);
+                formData.append('email', formState.inputs.email.value);
+                formData.append('password', formState.inputs.password.value);
+                formData.append('image', formState.inputs.image.value);
+
                 console.log("formState.inputs: ", formState.inputs);
 
                 const response = await sendRequest(
                     'http://localhost:5000/api/users/signup',
                     'POST',
-                    JSON.stringify({
-                        name: formState.inputs.name.value,
-                        email: formState.inputs.email.value,
-                        password: formState.inputs.password.value
-                    }),
-                    {
-                        'Content-Type': 'application/json'
-                    }
+                    formData
                 );
 
                 console.log("response: ", response);
@@ -136,6 +139,7 @@ const Auth = () => {
                             onInput={inputHandler}
                             />
                         )}
+
                         <Input
                             element="input"
                             id="email"
@@ -154,6 +158,17 @@ const Auth = () => {
                             errorText="Please enter a valid password. Minimum of 6 characters."
                             onInput={inputHandler}
                             />
+
+                        {!isLoginMode &&
+                                <ImageUpload
+                                    id="image"
+                                    center
+                                    onInput={inputHandler}
+                                    errorText="Please provide an image"
+                                    buttonText="Upload Profile Image"
+                        />
+                        }
+
                         <Button type="submit" disabled={!formState.isValid}>
                         {isLoginMode ? "Login" : "Sign Up"}
                         </Button>

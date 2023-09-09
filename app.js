@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -13,6 +16,8 @@ const app = express();
 
 //Parse JSON data
 app.use(bodyParser.json());
+
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 //Set CORS headers
 app.use((request, response, next) => {
@@ -31,6 +36,13 @@ app.use((request, response, next) => {
 
 //Error handling
 app.use((error, request, response, next) => {
+
+    if (request.file){
+        console.log("request.file: ", request.file);
+        fs.unlink(request.file.path, err => {
+            console.log(err);
+        });
+    }
 
     if (response.headerSent){
         return next(error);

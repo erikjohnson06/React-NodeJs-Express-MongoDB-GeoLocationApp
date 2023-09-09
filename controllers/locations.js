@@ -1,4 +1,6 @@
-const uuid = require('uuid'); //ID Generator
+const fs = require('fs');
+
+//const uuid = require('uuid'); //ID Generator
 const {validationResult} = require('express-validator');
 const mongoose = require('mongoose');
 
@@ -75,6 +77,7 @@ const createLocation = async (request, response, next) => {
 
     let coordinates;
     let user;
+    let image = request.file.path || null;
 
     try {
         coordinates = await getCoordinatesForAddress(address);
@@ -97,7 +100,8 @@ const createLocation = async (request, response, next) => {
         createdBy: createdBy,
         createdAt: Date.now(),
         isActive: true,
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg'
+        imageUrl: image
+        //imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg'
     });
 
     try {
@@ -170,13 +174,16 @@ const deleteLocationById = async (request, response, next) => {
     const locationId = request.params.locationId;
 
     let location;
-
+    let imagePath;
+    
     try {
         location = await LocationModel.findById(locationId).populate('createdBy'); //populate provide the full User object linked to this location
 
         if (!location) {
             return next(new HttpError('Unable to find location', 404));
         }
+
+        imagePath = location.imageUrl;
 
         //const session = await mongoose.startSession();
         //session.startTransaction();
@@ -196,6 +203,11 @@ const deleteLocationById = async (request, response, next) => {
         console.log(e);
         return next(new HttpError('Unable to delete location.', 500));
     }
+
+    //Delete any associated images
+    fs.unlink(imagePath, err => {
+        console.log(err);
+    });
 
     response.status(200).json({
         message: "Location deleted",

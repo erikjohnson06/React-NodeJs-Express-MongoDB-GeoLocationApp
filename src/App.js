@@ -48,8 +48,17 @@ const App = () => {
                 );
     }
 
+    console.log("userId: ", userId);
+
     return (
-    <AuthContext.Provider value={{isLoggedIn : isLoggedIn, userId: userId, login: login, logout : logout}}>
+    <AuthContext.Provider
+        value={{
+            isLoggedIn : isLoggedIn,
+            userId: userId,
+            login: login,
+            logout : logout
+        }}
+        >
         <Router>
         <MainNavigation />
         <main>

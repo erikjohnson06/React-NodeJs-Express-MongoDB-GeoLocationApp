@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
+import Input from '../../shared/components/FormElements/Input';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import {
@@ -32,6 +33,10 @@ const NewLocation = props => {
         address: {
             value: '',
             isValid: false
+        },
+        image: {
+            value: null,
+            isValid: false
         }
     }, false);
 
@@ -43,18 +48,17 @@ const NewLocation = props => {
 
         try {
 
+            const formData = new FormData();
+            formData.append('title', formState.inputs.title.value);
+            formData.append('description', formState.inputs.description.value);
+            formData.append('address', formState.inputs.address.value);
+            formData.append('createdBy', auth.userId);
+            formData.append('image', formState.inputs.image.value);
+
             await sendRequest(
                     'http://localhost:5000/api/locations',
                     'POST',
-                    JSON.stringify({
-                        title: formState.inputs.title.value,
-                        description: formState.inputs.description.value,
-                        address: formState.inputs.address.value,
-                        createdBy: auth.userId
-                    }),
-                    {
-                        'Content-Type': 'application/json'
-                    }
+                    formData
                 );
 
             //Redirect to home
@@ -95,6 +99,13 @@ const NewLocation = props => {
                         errorText="Please enter a valid address"
                         onInput={inputHandler}
                         />
+                    <ImageUpload
+                        id="image"
+                        center
+                        onInput={inputHandler}
+                        errorText="Please provide an image"
+                        buttonText="Upload Image"
+                    />
                     <Button type="submit" disabled={!formState.isValid}>Add Location</Button>
                 </form>
             </React.Fragment>
