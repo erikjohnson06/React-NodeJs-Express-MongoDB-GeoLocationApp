@@ -10,5 +10,6 @@ Express
 Google Maps API
 Google Geocoding API
 Multer
-
+JSON Web Tokens for authentication
+SPA (Single Page Application)
 MVC

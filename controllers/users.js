@@ -1,8 +1,28 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const uuid = require('uuid'); //ID Generator
 
 const HttpError = require('../models/http-error');
 const UserModel = require('../models/user');
+
+/**
+ * Create new JSON Web Token
+ * JWT Reference: https://github.com/auth0/node-jsonwebtoken
+ *
+ * @param {string} id
+ * @return {void}
+ */
+/*
+const createToken = id => {
+
+    return jwt.sign(
+            {id: id},
+            process.env.JWT_SECRET,
+            {expiresIn: process.env.JWT_EXPIRES}
+    );
+};
+*/
 
 const getUsers = async (request, response, next) => {
 
@@ -48,6 +68,7 @@ const registerNewUser = async (request, response, next) => {
     let user;
     let image = request.file.path || null;
     let hashedPassword;
+    let token;
 
     try {
 
@@ -90,8 +111,24 @@ const registerNewUser = async (request, response, next) => {
         return next(new HttpError('Unable to create new account at this time.', 500));
     }
 
+    try {
+        console.log("uuid.v4():", uuid.v4());
+
+        token = jwt.sign(
+                {userId: newUser.id, email: newUser.email },
+                uuid.v4(), //Private key
+                {expiresIn: '2h'}
+        );
+    }
+    catch(e){
+        console.log(e);
+        return next(new HttpError('Whoops.. an unexpected error has occurred.', 500));
+    }
+
     response.status(201).json({
-        user: newUser
+        userId: newUser.id,
+        email: newUser.email,
+        token: token
     });
 };
 
@@ -100,6 +137,7 @@ const login = async (request, response, next) => {
     const { email, password } = request.body;
 
     let user;
+    let token;
     let isValidPassword = false;
 
     try {
@@ -131,9 +169,25 @@ const login = async (request, response, next) => {
         throw new HttpError('Whoops.. email or password is not correct. Please try again.', 401);
     }
 
+    try {
+        console.log("uuid.v4():", uuid.v4());
+
+        token = jwt.sign(
+                {userId: user.id, email: user.email },
+                uuid.v4(), //Private key
+                {expiresIn: '2h'}
+        );
+    }
+    catch(e){
+        console.log(e);
+        return next(new HttpError('Whoops.. an unexpected error has occurred.', 500));
+    }
+
     response.json({
         message: 'You have signed in successfully!',
-        user: user
+        userId: user.id,
+        email: user.email,
+        token: token
     });
 };
 
