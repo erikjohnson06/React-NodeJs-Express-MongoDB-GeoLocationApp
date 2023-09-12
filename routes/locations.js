@@ -3,6 +3,7 @@ const {check} = require('express-validator');
 
 const locationsController = require('../controllers/locations');
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
@@ -12,6 +13,9 @@ const router = express.Router();
 router.get('/:locationId', locationsController.getLocationById);
 
 router.get('/user/:userId', locationsController.getLocationsByUserId);
+
+//The below routes require authentication
+router.use(checkAuth);
 
 router.post('/',
         fileUpload.single('image'),

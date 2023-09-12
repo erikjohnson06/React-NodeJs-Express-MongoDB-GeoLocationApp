@@ -7,9 +7,9 @@ import Input from '../../shared/components/FormElements/Input';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import {
-VALIDATOR_REQUIRE,
-        VALIDATOR_MINLENGTH
-        } from '../../shared/util/validators';
+    VALIDATOR_REQUIRE,
+    VALIDATOR_MINLENGTH
+    } from '../../shared/util/validators';
 import { useForm } from '../../shared/hooks/form-hooks';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
@@ -58,7 +58,8 @@ const NewLocation = props => {
             await sendRequest(
                     'http://localhost:5000/api/locations',
                     'POST',
-                    formData
+                    formData,
+                    { 'Authorization' : 'Bearer ' + auth.token }
                 );
 
             //Redirect to home

@@ -112,11 +112,11 @@ const registerNewUser = async (request, response, next) => {
     }
 
     try {
-        console.log("uuid.v4():", uuid.v4());
+        console.log("JWT_SECRET: ", process.env.JWT_SECRET);
 
         token = jwt.sign(
                 {userId: newUser.id, email: newUser.email },
-                uuid.v4(), //Private key
+                process.env.JWT_SECRET, //Private key
                 {expiresIn: '2h'}
         );
     }

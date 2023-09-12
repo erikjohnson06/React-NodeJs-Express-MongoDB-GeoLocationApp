@@ -11,22 +11,22 @@ import { AuthContext } from './shared/context/auth-context';
 
 const App = () => {
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [token, setToken] = useState(null);
     const [userId, setUserId] = useState(false);
 
-    const login = useCallback((id) => {
-        setIsLoggedIn(true);
+    const login = useCallback((id, token) => {
+        setToken(token);
         setUserId(id);
     }, []);
 
     const logout = useCallback(() => {
-        setIsLoggedIn(false);
+        setToken(null);
         setUserId(null);
     }, []);
 
     let routes;
 
-    if (isLoggedIn){
+    if (token){
         routes = (
             <Routes>
                 <Route path="/" exact="true" element={<Users />} />
@@ -53,7 +53,8 @@ const App = () => {
     return (
     <AuthContext.Provider
         value={{
-            isLoggedIn : isLoggedIn,
+            isLoggedIn : !!token, //!! converts to 'true' if truthy value
+            token: token,
             userId: userId,
             login: login,
             logout : logout

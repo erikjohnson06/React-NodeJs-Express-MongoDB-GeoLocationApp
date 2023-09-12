@@ -84,8 +84,9 @@ const Auth = () => {
                         'Content-Type': 'application/json'
                     }
                 );
-                console.log("response.user.id: ", response.user.id);
-                auth.login(response.user.id);
+                console.log("response.userId: ", response.userId);
+                console.log("response.token: ", response.token);
+                auth.login(response.userId, response.token);
             }
             catch(e){
                 console.log(e);
@@ -110,8 +111,8 @@ const Auth = () => {
                 );
 
                 console.log("response: ", response);
-
-                auth.login(response.user.id);
+                console.log("response.token: ", response.token);
+                auth.login(response.userId, response.token);
             }
             catch(e){
                 console.log(e);
