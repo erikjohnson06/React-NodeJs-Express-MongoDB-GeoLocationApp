@@ -154,6 +154,11 @@ const updateLocationById = async (request, response, next) => {
             return next(new HttpError('Unable to find location', 404));
         }
 
+        //Ensure only original creator can update the location
+        if (updatedLocation.createdBy.toString() !== request.userData.userId) {
+            return next(new HttpError('You are not permitted to update this location', 401));
+        }
+
         updatedLocation.title = title;
         updatedLocation.description = description;
         updatedLocation.lastUpdated = Date.now();
@@ -175,12 +180,17 @@ const deleteLocationById = async (request, response, next) => {
 
     let location;
     let imagePath;
-    
+
     try {
         location = await LocationModel.findById(locationId).populate('createdBy'); //populate provide the full User object linked to this location
 
         if (!location) {
             return next(new HttpError('Unable to find location', 404));
+        }
+
+        //Ensure only original creator can update the location
+        if (location.createdBy.id !== request.userData.userId) {
+            return next(new HttpError('You are not permitted to delete this location', 401));
         }
 
         imagePath = location.imageUrl;

@@ -13,7 +13,7 @@ module.exports = (request, response, next) => {
         const token = request.headers.authorization.split(' ')[1]; //Authorization: 'Bearer TOKEN'
 
         if (!token){
-            return next(new HttpError('Authentication failed', 401));
+            return next(new HttpError('Authentication failed', 403));
         }
 
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
@@ -21,9 +21,6 @@ module.exports = (request, response, next) => {
         next();
     }
     catch(e){
-        return next(new HttpError('Authentication failed', 401));
+        return next(new HttpError('Authentication failed', 403));
     }
-
-
-
 };

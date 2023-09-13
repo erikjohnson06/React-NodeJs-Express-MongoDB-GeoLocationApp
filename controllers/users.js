@@ -117,7 +117,7 @@ const registerNewUser = async (request, response, next) => {
         token = jwt.sign(
                 {userId: newUser.id, email: newUser.email },
                 process.env.JWT_SECRET, //Private key
-                {expiresIn: '2h'}
+                {expiresIn: process.env.JWT_EXPIRES}
         );
     }
     catch(e){
@@ -154,7 +154,7 @@ const login = async (request, response, next) => {
     console.log(user);
 
     if (!user){
-        return next(new HttpError('Unable to find this user account or email/password is not correct', 401));
+        return next(new HttpError('Unable to find this user account or email/password is not correct', 403));
     }
 
     try {
@@ -166,16 +166,16 @@ const login = async (request, response, next) => {
     }
 
     if (!isValidPassword){
-        throw new HttpError('Whoops.. email or password is not correct. Please try again.', 401);
+        throw new HttpError('Whoops.. email or password is not correct. Please try again.', 403);
     }
 
     try {
-        console.log("uuid.v4():", uuid.v4());
+        console.log("JWT_SECRET: ", process.env.JWT_SECRET);
 
         token = jwt.sign(
                 {userId: user.id, email: user.email },
-                uuid.v4(), //Private key
-                {expiresIn: '2h'}
+                process.env.JWT_SECRET, //Private key
+                {expiresIn: process.env.JWT_EXPIRES}
         );
     }
     catch(e){
