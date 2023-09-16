@@ -19,11 +19,30 @@
 
 .main-navigation__title {
   color: white;
+  height: 42px;
 }
 
 .main-navigation__title a {
   text-decoration: none;
-  color: white;
+  color: #407f3d;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-navigation__sitename {
+    height: 42px;
+    padding: 0px 4px;
+}
+
+.main-navigation__logo {
+    height: 42px;
+    padding: 0px 4px;
+}
+
+.main-navigation__logo img {
+    height: 42px;
 }
 
 .main-navigation__header-nav {

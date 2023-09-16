@@ -36,7 +36,18 @@ const MainNavigation = props => {
                 <span />
             </button>
             <h1 className="main-navigation__title">
-                <Link to="/">GeoLocation Sharing</Link>
+                <Link to="/">
+                <div className="main-navigation__logo">
+                    <img
+                        src="/logo.png"
+                        alt="Logo"
+                    />
+                </div>
+                <div className="main-navigation__sitename">
+                    GeoLocation Sharing
+                </div>
+
+                </Link>
             </h1>
             <nav className="main-navigation__header-nav">
                 <NavLinks />
