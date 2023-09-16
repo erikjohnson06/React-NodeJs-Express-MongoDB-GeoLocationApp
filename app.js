@@ -54,13 +54,11 @@ app.use((error, request, response, next) => {
             });
 });
 
-//const DATABASE_LOCAL='mongodb://127.0.0.1:27017/nature_tours';
-//const DATABASE_PASSWORD='2BGrm8GXWIPP3cvP';
-
+//Connect to DB. Use DATABASE_ATLAS for Mongo Atlas connection
 mongoose
         .connect(process.env.DATABASE_LOCAL)
         .then(() => {
-            app.listen(5000);
+            app.listen(process.env.PORT);
         })
         .catch(error => {
             console.log(error);

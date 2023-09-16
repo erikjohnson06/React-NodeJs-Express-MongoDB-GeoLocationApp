@@ -74,7 +74,7 @@ const Auth = () => {
             try {
 
                 const response = await sendRequest(
-                    'http://localhost:5000/api/users/login',
+                    process.env.REACT_APP_API_URL + '/users/login',
                     'POST',
                     JSON.stringify({
                         email: formState.inputs.email.value,
@@ -105,7 +105,7 @@ const Auth = () => {
                 console.log("formState.inputs: ", formState.inputs);
 
                 const response = await sendRequest(
-                    'http://localhost:5000/api/users/signup',
+                    process.env.REACT_APP_API_URL + '/users/signup',
                     'POST',
                     formData
                 );

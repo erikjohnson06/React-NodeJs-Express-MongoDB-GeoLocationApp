@@ -49,7 +49,7 @@ const UserLocations = props => {
 
             try {
                 const response = await sendRequest(
-                        `http://localhost:5000/api/locations/user/${userId}`
+                        `${process.env.REACT_APP_API_URL}/locations/user/${userId}`
                     );
 
                 console.log("fetchLocations response: ", response);

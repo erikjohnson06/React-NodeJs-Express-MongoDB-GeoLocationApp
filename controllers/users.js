@@ -18,7 +18,7 @@ const createToken = id => {
 
     return jwt.sign(
             {id: id},
-            process.env.JWT_SECRET,
+            process.env.JWT_KEY,
             {expiresIn: process.env.JWT_EXPIRES}
     );
 };
@@ -112,11 +112,10 @@ const registerNewUser = async (request, response, next) => {
     }
 
     try {
-        console.log("JWT_SECRET: ", process.env.JWT_SECRET);
 
         token = jwt.sign(
                 {userId: newUser.id, email: newUser.email },
-                process.env.JWT_SECRET, //Private key
+                process.env.JWT_KEY, //Private key
                 {expiresIn: process.env.JWT_EXPIRES}
         );
     }
@@ -170,11 +169,11 @@ const login = async (request, response, next) => {
     }
 
     try {
-        console.log("JWT_SECRET: ", process.env.JWT_SECRET);
+        console.log("JWT_KEY: ", process.env.JWT_KEY);
 
         token = jwt.sign(
                 {userId: user.id, email: user.email },
-                process.env.JWT_SECRET, //Private key
+                process.env.JWT_KEY, //Private key
                 {expiresIn: process.env.JWT_EXPIRES}
         );
     }

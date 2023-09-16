@@ -52,11 +52,11 @@ const NewLocation = props => {
             formData.append('title', formState.inputs.title.value);
             formData.append('description', formState.inputs.description.value);
             formData.append('address', formState.inputs.address.value);
-            formData.append('createdBy', auth.userId);
+            //formData.append('createdBy', auth.userId);
             formData.append('image', formState.inputs.image.value);
 
             await sendRequest(
-                    'http://localhost:5000/api/locations',
+                    process.env.REACT_APP_URL + '/locations',
                     'POST',
                     formData,
                     { 'Authorization' : 'Bearer ' + auth.token }

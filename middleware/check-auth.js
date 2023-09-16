@@ -16,7 +16,7 @@ module.exports = (request, response, next) => {
             return next(new HttpError('Authentication failed', 403));
         }
 
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const decodedToken = jwt.verify(token, process.env.JWT_KEY);
         request.userData = { userId : decodedToken.userId };
         next();
     }

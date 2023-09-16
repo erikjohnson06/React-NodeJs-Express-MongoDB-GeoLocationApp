@@ -73,7 +73,7 @@ const createLocation = async (request, response, next) => {
         }
     }
 
-    const {title, description, address, createdBy} = request.body;
+    const { title, description, address } = request.body;
 
     let coordinates;
     let user;
@@ -85,7 +85,9 @@ const createLocation = async (request, response, next) => {
         return next(e);
     }
 
-    user = await UserModel.findById(createdBy);
+    console.log("request.userData.userId: ", request.userData.userId);
+
+    user = await UserModel.findById(request.userData.userId);
 
     if (!user) {
         return next(new HttpError('Unable to save location. Invalid User.', 404));
@@ -97,7 +99,7 @@ const createLocation = async (request, response, next) => {
         description: description,
         coordinates: coordinates,
         address: address,
-        createdBy: createdBy,
+        createdBy: request.userData.userId,
         createdAt: Date.now(),
         isActive: true,
         imageUrl: image

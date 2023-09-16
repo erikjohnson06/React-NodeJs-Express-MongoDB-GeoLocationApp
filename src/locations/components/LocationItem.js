@@ -32,7 +32,7 @@ const LocationItem = props => {
         try {
 
             await sendRequest(
-                    `http://localhost:5000/api/locations/${props.id}`,
+                    `${process.env.REACT_APP_API_URL}/locations/${props.id}`,
                     'DELETE',
                     null,
                     { 'Authorization' : 'Bearer ' + auth.token }
@@ -88,7 +88,7 @@ const LocationItem = props => {
                     <Card className="location-item__content">
                     {isLoading && <LoadingSpinner asOverlay />}
                     <div className="location-item__image">
-                        <img src={`http://localhost:5000/${props.image}`} alt={props.title} />
+                        <img src={`${process.env.REACT_APP_ASSET_URL}/${props.image}`} alt={props.title} />
                     </div>
                     <div className="location-item__info">
                         <h2>{props.title}</h2>

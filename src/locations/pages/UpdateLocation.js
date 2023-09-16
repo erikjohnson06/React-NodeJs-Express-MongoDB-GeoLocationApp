@@ -50,7 +50,7 @@ const UpdateLocation = () => {
 
             try {
                 const response = await sendRequest(
-                        `http://localhost:5000/api/locations/${locationId}`
+                        `${process.env.REACT_APP_API_URL}/locations/${locationId}`
                     );
 
                 setLoadedLocation(response.location);
@@ -86,7 +86,7 @@ const UpdateLocation = () => {
         try {
 
             await sendRequest(
-                    `http://localhost:5000/api/locations/${locationId}`,
+                    `${process.env.REACT_APP_API_URL}/locations/${locationId}`,
                     'PATCH',
                     JSON.stringify({
                         title: formState.inputs.title.value,
