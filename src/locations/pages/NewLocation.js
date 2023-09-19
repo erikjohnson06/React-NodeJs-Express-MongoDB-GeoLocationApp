@@ -47,7 +47,7 @@ const NewLocation = props => {
         console.log(formState.inputs);
 
         try {
-
+            console.log("image: ", formState.inputs.image.value);
             const formData = new FormData();
             formData.append('title', formState.inputs.title.value);
             formData.append('description', formState.inputs.description.value);
@@ -56,7 +56,7 @@ const NewLocation = props => {
             formData.append('image', formState.inputs.image.value);
 
             await sendRequest(
-                    process.env.REACT_APP_URL + '/locations',
+                    process.env.REACT_APP_API_URL + '/locations',
                     'POST',
                     formData,
                     { 'Authorization' : 'Bearer ' + auth.token }

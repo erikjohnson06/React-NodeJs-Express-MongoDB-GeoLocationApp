@@ -11,49 +11,54 @@ const UserModel = require('../models/user');
  * JWT Reference: https://github.com/auth0/node-jsonwebtoken
  *
  * @param {string} id
+ * @param {string} email
  * @return {void}
  */
-/*
-const createToken = id => {
+const createToken = (id, email) => {
 
     return jwt.sign(
-            {id: id},
-            process.env.JWT_KEY,
-            {expiresIn: process.env.JWT_EXPIRES}
-    );
+                {userId: id, email: email },
+                process.env.JWT_KEY, //Private key
+                {expiresIn: process.env.JWT_EXPIRES}
+        );
 };
-*/
 
+
+/**
+ * Find all active users.
+ */
 const getUsers = async (request, response, next) => {
 
     let users;
 
     try {
 
-        //Find all active users. Do not return password.
-        users = await UserModel.find({
-            'isActive' : true
-        }, '-password');
+        //Do not return password.
+        users = await UserModel.find(
+            {'isActive' : true},
+            '-password')
+                .sort({'lastUpdated' : -1, 'name' : 1});
     }
     catch(e){
         console.log(e);
         return next(new HttpError('Something went wrong. Unable to fetch users.', 500));
     }
 
-
-    console.log("Getting users...", users);
-
     response.json({
         users: users
     });
 };
 
+/**
+ * Create new user account
+ */
 const registerNewUser = async (request, response, next) => {
 
     //Check for validation errors based on middleware defined in routes
     const errors = validationResult(request);
 
     if (!errors.isEmpty()){
+
         console.error(errors);
 
         if (typeof (errors.errors[0].path) !== "undefined"){
@@ -91,7 +96,8 @@ const registerNewUser = async (request, response, next) => {
         return next(new HttpError('Please upload a profile image.', 405));
     }
 
-    console.log(request.protocol, request.get('host'));
+    //Remove the directory prefix
+    image = image.replace('uploads\\images\\', '');
 
     const newUser = new UserModel({
         name: name,
@@ -107,17 +113,15 @@ const registerNewUser = async (request, response, next) => {
         newUser.save();
     }
     catch(e){
-        console.log(e);
+        console.error(e);
         return next(new HttpError('Unable to create new account at this time.', 500));
     }
 
     try {
 
-        token = jwt.sign(
-                {userId: newUser.id, email: newUser.email },
-                process.env.JWT_KEY, //Private key
-                {expiresIn: process.env.JWT_EXPIRES}
-        );
+        token = createToken(newUser.id, newUser.email);
+
+
     }
     catch(e){
         console.log(e);
@@ -150,8 +154,6 @@ const login = async (request, response, next) => {
         return next(new HttpError('Something went wrong. Unable to sign in at this time.', 500));
     }
 
-    console.log(user);
-
     if (!user){
         return next(new HttpError('Unable to find this user account or email/password is not correct', 403));
     }
@@ -169,13 +171,7 @@ const login = async (request, response, next) => {
     }
 
     try {
-        console.log("JWT_KEY: ", process.env.JWT_KEY);
-
-        token = jwt.sign(
-                {userId: user.id, email: user.email },
-                process.env.JWT_KEY, //Private key
-                {expiresIn: process.env.JWT_EXPIRES}
-        );
+        token = createToken(user.id, user.email);
     }
     catch(e){
         console.log(e);

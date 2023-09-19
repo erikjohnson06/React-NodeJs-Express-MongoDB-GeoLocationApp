@@ -1,6 +1,5 @@
 const fs = require('fs');
 
-//const uuid = require('uuid'); //ID Generator
 const {validationResult} = require('express-validator');
 const mongoose = require('mongoose');
 
@@ -9,6 +8,9 @@ const getCoordinatesForAddress = require('../util/locations');
 const LocationModel = require('../models/location');
 const UserModel = require('../models/user');
 
+/**
+ * Retrieve a location by its given ID
+ */
 const getLocationById = async (request, response, next) => {
 
     const id = request.params.locationId;
@@ -18,12 +20,12 @@ const getLocationById = async (request, response, next) => {
     try {
         location = await LocationModel.findById(id).exec(); //Note: 'exec' returns a Promise
     } catch (e) {
-        console.log(e);
+        console.error(e);
         return next(new HttpError('Something went wrong. Unable to find locations.', 500));
     }
 
     if (!location) {
-        console.log(id, location);
+        console.error(id, location);
         return next(new HttpError('Unable to find this location', 404));
     }
 
@@ -32,24 +34,24 @@ const getLocationById = async (request, response, next) => {
     });
 };
 
+/**
+ * Retrieve all active locations assigned to a given user ID
+ */
 const getLocationsByUserId = async (request, response, next) => {
 
     const id = request.params.userId;
     let locations;
 
-    console.log("getLocationsByUserId: ", id);
-
     try {
         locations = await LocationModel.find({
             createdBy: id,
             isActive: true //search active locations only
-        });
+        }).sort({'createdAt' : -1}); // -1 = DESC
+
     } catch (e) {
-        console.log(e);
+        console.error(e);
         return next(new HttpError('Something went wrong. Unable to find locations.', 500));
     }
-
-    console.log("getLocationsByUserId locations: ", locations);
 
     if (!locations || locations.length === 0) {
         return next(new HttpError('Unable to find locations', 404));
@@ -58,12 +60,16 @@ const getLocationsByUserId = async (request, response, next) => {
     response.json({locations: locations});
 };
 
+/**
+ * Create new location
+ */
 const createLocation = async (request, response, next) => {
 
     //Check for validation errors based on middleware defined in routes
     const errors = validationResult(request);
 
     if (!errors.isEmpty()) {
+
         console.error(errors);
 
         if (typeof (errors.errors[0].path) !== "undefined") {
@@ -79,13 +85,16 @@ const createLocation = async (request, response, next) => {
     let user;
     let image = request.file.path || null;
 
+    //Remove the directory prefix
+    if (image){
+        image = image.replace('uploads\\images\\', '');
+    }
+
     try {
         coordinates = await getCoordinatesForAddress(address);
     } catch (e) {
         return next(e);
     }
-
-    console.log("request.userData.userId: ", request.userData.userId);
 
     user = await UserModel.findById(request.userData.userId);
 
@@ -94,7 +103,6 @@ const createLocation = async (request, response, next) => {
     }
 
     const newLocation = new LocationModel({
-        //id: uuid.v4(),
         title: title,
         description: description,
         coordinates: coordinates,
@@ -103,25 +111,18 @@ const createLocation = async (request, response, next) => {
         createdAt: Date.now(),
         isActive: true,
         imageUrl: image
-        //imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/250px-Empire_State_Building_%28aerial_view%29.jpg'
     });
 
     try {
 
-        //Save location with a transaction. Rollback in the case of errors.
-        //const session = await mongoose.startSession();
-        //session.startTransaction();
-
-        await newLocation.save(); //{ session: session}
+        await newLocation.save();
 
         //Refer to location in user model
         user.locations.push(newLocation);
-        await user.save(); //{ session: session}
-
-        //Commit updates
-        //await session.commitTransaction();
-    } catch (e) {
-        console.log(e);
+        await user.save();
+    }
+    catch (e) {
+        console.error(e);
         return next(new HttpError('Unable to save new location.', 500));
     }
 
@@ -130,6 +131,9 @@ const createLocation = async (request, response, next) => {
     });
 };
 
+/**
+ * Update a location by its given ID
+ */
 const updateLocationById = async (request, response, next) => {
 
     //Check for validation errors based on middleware defined in routes
@@ -166,7 +170,8 @@ const updateLocationById = async (request, response, next) => {
         updatedLocation.lastUpdated = Date.now();
 
         await updatedLocation.save();
-    } catch (e) {
+    }
+    catch (e) {
         console.log(e);
         return next(new HttpError('Unable to update location.', 500));
     }
@@ -176,6 +181,9 @@ const updateLocationById = async (request, response, next) => {
     });
 };
 
+/**
+ * Remove a location by its given ID
+ */
 const deleteLocationById = async (request, response, next) => {
 
     const locationId = request.params.locationId;
@@ -195,23 +203,15 @@ const deleteLocationById = async (request, response, next) => {
             return next(new HttpError('You are not permitted to delete this location', 401));
         }
 
-        imagePath = location.imageUrl;
-
-        //const session = await mongoose.startSession();
-        //session.startTransaction();
+        imagePath = 'uploads\\images\\' + location.imageUrl;
 
         await location.deleteOne();
-
-        //location.isActive = false;
-        //await location.save(); //{ session: session}
 
         location.createdBy.locations.pull(location); //Pull removes the place from the user
 
         await location.createdBy.save(); //{ session: session}
-
-        //Commit updates
-        //await session.commitTransaction();
-    } catch (e) {
+    }
+    catch (e) {
         console.log(e);
         return next(new HttpError('Unable to delete location.', 500));
     }
@@ -227,6 +227,9 @@ const deleteLocationById = async (request, response, next) => {
     });
 };
 
+/*
+ * CRUD Operations
+ */
 exports.getLocationById = getLocationById;
 exports.getLocationsByUserId = getLocationsByUserId;
 exports.createLocation = createLocation;
