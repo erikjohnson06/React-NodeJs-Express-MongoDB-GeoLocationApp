@@ -38,7 +38,6 @@ app.use((request, response, next) => {
 app.use((error, request, response, next) => {
 
     if (request.file){
-        console.log("request.file: ", request.file);
         fs.unlink(request.file.path, err => {
             console.log(err);
         });
@@ -54,7 +53,7 @@ app.use((error, request, response, next) => {
             });
 });
 
-//Connect to DB. Use DATABASE_ATLAS for Mongo Atlas connection
+//Connect to DB. Note: use process.env.DATABASE_ATLAS for Mongo Atlas connection
 mongoose
         .connect(process.env.DATABASE_LOCAL)
         .then(() => {

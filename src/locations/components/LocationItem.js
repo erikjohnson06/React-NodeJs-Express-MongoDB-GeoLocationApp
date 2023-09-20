@@ -39,9 +39,6 @@ const LocationItem = props => {
                 );
 
             props.onDelete(props.id);
-
-            //Redirect to user locations
-            //navigate('/' + auth.userId + '/locations');
         } catch (e) {
             console.log(e);
         }
@@ -88,7 +85,7 @@ const LocationItem = props => {
                     <Card className="location-item__content">
                     {isLoading && <LoadingSpinner asOverlay />}
                     <div className="location-item__image">
-                        <img src={`${process.env.REACT_APP_ASSET_URL}/uploads/images/${props.image}`} alt={props.title} />
+                        <img src={`${process.env.REACT_APP_ASSET_URL}/uploads/images/locations/${props.image}`} alt={props.title} />
                     </div>
                     <div className="location-item__info">
                         <h2>{props.title}</h2>

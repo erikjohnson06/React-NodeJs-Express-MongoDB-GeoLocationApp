@@ -9,21 +9,13 @@ async function getCoordinatesForAddress (address) {
             `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${API_KEY}`
             );
 
-    //console.log("process.env.GOOGLE_API_KEY: ", process.env.GOOGLE_API_KEY);
-    //console.log("API_KEY: ", API_KEY);
-    //console.log(response);
-
     const data = response.data;
-
-    //console.log(data);
 
     if (!data || data.status === 'ZERO_RESULTS'){
         throw new HttpError('Unable to find location for the specified address.', 422);
     }
 
     const coordinates = data.results[0].geometry.location;
-
-    //console.log("coordinates: ", coordinates);
 
     return coordinates;
 };

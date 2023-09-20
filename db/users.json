@@ -1,0 +1,230 @@
+[{
+  "_id": {
+    "$oid": "64fc4de8c18a15b03ff6b8b1"
+  },
+  "name": "Erik Johnson",
+  "email": "erikjohnson06@gmail.com",
+  "password": "$2a$12$FNT37HN27OZw4RS4gRpNXezjCQdCLKdflTZ0yjvs9F86.jxOI4BRu",
+  "image": "be8dc240-bcbd-4ca5-88fc-13cbd5f005d9.jpeg",
+  "locations": [
+    {
+      "$oid": "650a5b08cd3f3a9066813886"
+    },
+    {
+      "$oid": "650a5b5fcd3f3a906681388e"
+    },
+    {
+      "$oid": "650ab958cd3f3a90668138f2"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-09-09T10:50:16.447Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-09T10:49:51.545Z"
+  },
+  "isActive": true,
+  "__v": 21
+},
+{
+  "_id": {
+    "$oid": "650a5387d41cb82622d13517"
+  },
+  "name": "Sharlene Rochelle",
+  "email": "sharlene.rochelle@test.com",
+  "password": "$2a$12$AHBDcldmD1Au0Vr.GqDup.EBQ11BIzIwnQuHWLmmFEvJ5.fWCc2Jy",
+  "image": "579b7f10-8af4-4e6f-b894-2a1cd6a5387b.jpeg",
+  "locations": [],
+  "createdAt": {
+    "$date": "2023-09-20T02:05:59.445Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-20T02:03:28.686Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650a5430d41cb82622d1351f"
+  },
+  "name": "Gerald Miller",
+  "email": "gerald.miller@test.com",
+  "password": "$2a$12$9SUCAghz5/XsueEylzTOLe9L1uAS48JzinbSDr1d19iP4Ielt57nW",
+  "image": "b79c9f78-8171-4e5d-8e68-82b4692c0a33.jpeg",
+  "locations": [
+    {
+      "$oid": "650ab772cd3f3a90668138b9"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-09-20T02:08:48.166Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-20T02:03:28.686Z"
+  },
+  "isActive": true,
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "650a56cb43b4a2449dc8aaa8"
+  },
+  "name": "Rachel Haven",
+  "email": "rachel.haven@test.com",
+  "password": "$2a$12$f2Kj2engJFVW2Rf6GJu51.Ny7aKWEcmuDQjFtFdZcNhbySUbowKDa",
+  "image": "766f8d36-55f5-4e32-965e-cf07b2b239d7.jpeg",
+  "locations": [
+    {
+      "$oid": "650a5ba5cd3f3a9066813896"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-09-20T02:19:55.917Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-20T02:19:17.263Z"
+  },
+  "isActive": true,
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "650a575b43b4a2449dc8aaae"
+  },
+  "name": "Derrick Owen",
+  "email": "derrick.owen@test.com",
+  "password": "$2a$12$OYQDIMxok7LfK7LK.6A5jeEcra9I3ebV2HcX3HxWRlMuZrlkd1euq",
+  "image": "9677a203-f21e-4005-bca4-90e4188d4075.jpeg",
+  "locations": [
+    {
+      "$oid": "650ab84bcd3f3a90668138c9"
+    },
+    {
+      "$oid": "650ab8b9cd3f3a90668138cf"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-09-20T02:22:19.709Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-20T02:19:17.263Z"
+  },
+  "isActive": true,
+  "__v": 2
+},
+{
+  "_id": {
+    "$oid": "650a57a043b4a2449dc8aab4"
+  },
+  "name": "Loreen Connell",
+  "email": "loreen.connell@test.com",
+  "password": "$2a$12$5vUB.Ehzn3HKND/SJx20...1BKUNY5O3hqUF4NXU7bust34.uNtFG",
+  "image": "8e4598b2-6cce-4a84-bb55-ae25c75a831f.jpeg",
+  "locations": [
+    {
+      "$oid": "650abb2fcd3f3a906681390b"
+    },
+    {
+      "$oid": "650abb56cd3f3a9066813914"
+    },
+    {
+      "$oid": "650abbeacd3f3a906681391a"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-09-20T02:23:28.753Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-20T02:19:17.263Z"
+  },
+  "isActive": true,
+  "__v": 3
+},
+{
+  "_id": {
+    "$oid": "650a582343b4a2449dc8aaba"
+  },
+  "name": "Jared Baker",
+  "email": "jared.baker@test.com",
+  "password": "$2a$12$3vv9f/r64Nhm4WuAYbnWdObC2dgEIxISRDjJ3kD66hrjUx/RXZlIy",
+  "image": "213f7854-688b-4b1b-8186-1900cda0ecab.jpeg",
+  "locations": [
+    {
+      "$oid": "650ab650cd3f3a90668138a5"
+    },
+    {
+      "$oid": "650ab6cecd3f3a90668138ab"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-09-20T02:25:39.071Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-20T02:19:17.263Z"
+  },
+  "isActive": true,
+  "__v": 2
+},
+{
+  "_id": {
+    "$oid": "650a584d43b4a2449dc8aac0"
+  },
+  "name": "Travis Gibson",
+  "email": "travis.gibson@test.com",
+  "password": "$2a$12$SDEr2VkpGJRDw5GGZSAPD.y3VEDO7uuyuNxulvY/8qo5QvrZjx0Fy",
+  "image": "8a635a2e-4f8d-42ec-a1c7-0816cbf1e8f7.jpeg",
+  "locations": [],
+  "createdAt": {
+    "$date": "2023-09-20T02:26:21.043Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-20T02:19:17.263Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650a588f43b4a2449dc8aac6"
+  },
+  "name": "Stuart Beckett",
+  "email": "stuart.beckett@test.com",
+  "password": "$2a$12$nENzxLnSyQxsHtcgaiptTOuO8W3/2wKUaFldU6b3MbNq.vH/UcA2q",
+  "image": "4f31bf06-955c-42d0-9dc6-af0f667e92f8.jpeg",
+  "locations": [
+    {
+      "$oid": "650ab7d9cd3f3a90668138c1"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-09-20T02:27:27.353Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-20T02:19:17.263Z"
+  },
+  "isActive": true,
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "650a58e043b4a2449dc8aacc"
+  },
+  "name": "Marty Kim",
+  "email": "marty.kim@test.com",
+  "password": "$2a$12$JP9wMehkCT210lbC4brfoOGEC3GqxaLGvewO0LCyjDpbShY7T1v7m",
+  "image": "5babc1f9-8d5c-4174-b6ff-391c041b114a.jpeg",
+  "locations": [
+    {
+      "$oid": "650a59ca43b4a2449dc8aae3"
+    }
+  ],
+  "createdAt": {
+    "$date": "2023-09-20T02:28:48.616Z"
+  },
+  "lastUpdated": {
+    "$date": "2023-09-20T02:19:17.263Z"
+  },
+  "isActive": true,
+  "__v": 3
+}]

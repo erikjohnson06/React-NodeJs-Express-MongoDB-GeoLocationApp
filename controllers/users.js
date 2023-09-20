@@ -70,6 +70,9 @@ const registerNewUser = async (request, response, next) => {
     }
 
     const { name, email, password } = request.body;
+
+    console.log("request.file: ", request.file);
+
     let user;
     let image = request.file.path || null;
     let hashedPassword;
@@ -97,7 +100,7 @@ const registerNewUser = async (request, response, next) => {
     }
 
     //Remove the directory prefix
-    image = image.replace('uploads\\images\\', '');
+    image = image.replace('uploads\\images\\users\\', '');
 
     const newUser = new UserModel({
         name: name,
@@ -118,10 +121,7 @@ const registerNewUser = async (request, response, next) => {
     }
 
     try {
-
         token = createToken(newUser.id, newUser.email);
-
-
     }
     catch(e){
         console.log(e);

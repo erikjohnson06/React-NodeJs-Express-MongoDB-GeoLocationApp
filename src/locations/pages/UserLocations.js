@@ -13,8 +13,6 @@ const UserLocations = props => {
 
     const userId = useParams().uid;
 
-    console.log("userId: ", userId);
-
     useEffect(() => {
 
         const fetchLocations = async () => {
@@ -23,8 +21,6 @@ const UserLocations = props => {
                 const response = await sendRequest(
                         `${process.env.REACT_APP_API_URL}/locations/user/${userId}`
                     );
-
-                console.log("fetchLocations response: ", response);
 
                 setLoadedLocations(response.locations);
             }

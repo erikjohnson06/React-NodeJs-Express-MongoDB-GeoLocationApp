@@ -1,0 +1,350 @@
+[{
+  "_id": {
+    "$oid": "650a59ca43b4a2449dc8aae3"
+  },
+  "title": "Sunsphere",
+  "description": "The Sunsphere located in World’s Fair Park in downtown Knoxville, Tennessee, is a 266-foot high hexagonal steel truss structure, topped with a 75 ft gold-colored glass sphere that served as the symbol of the 1982 World's Fair",
+  "imageUrl": "a88715e8-6cb4-4355-ac76-0109e8ae256c.jpeg",
+  "address": "810 Clinch Ave, Knoxville, TN 37902",
+  "coordinates": {
+    "lat": 35.961694,
+    "lng": -83.923221
+  },
+  "createdBy": {
+    "$oid": "650a58e043b4a2449dc8aacc"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T02:32:42.387Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:19:17.222Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650a5b08cd3f3a9066813886"
+  },
+  "title": "Ijams Nature Center",
+  "description": "Wetlands & rock formations fill urban nature park with 10 miles of trails plus bike & canoe rental.",
+  "imageUrl": "45337787-d575-4c36-9571-f000f0ae520c.jpeg",
+  "address": "2915 Island Home Ave, Knoxville, TN 37920",
+  "coordinates": {
+    "lat": 35.9564523,
+    "lng": -83.86692980000001
+  },
+  "createdBy": {
+    "$oid": "64fc4de8c18a15b03ff6b8b1"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T02:38:00.390Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650a5b5fcd3f3a906681388e"
+  },
+  "title": "Knoxville Botanical Garden and Arboretum",
+  "description": "47-acres of gardens, trees & lawns amid walking paths, old walls & stone buildings.",
+  "imageUrl": "57a43c75-44cf-4c03-a1e2-f0be57192e79.jpeg",
+  "address": "2743 Wimpole Ave, Knoxville, TN 37914",
+  "coordinates": {
+    "lat": 35.9835006,
+    "lng": -83.8823678
+  },
+  "createdBy": {
+    "$oid": "64fc4de8c18a15b03ff6b8b1"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T02:39:27.904Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650a5ba5cd3f3a9066813896"
+  },
+  "title": "Women's Basketball Hall of Fame",
+  "description": "The Women's Basketball Hall of Fame honors those who have contributed to the sport of women's basketball. The Hall of Fame opened in 1999 in Knoxville, Tennessee, USA. It is the only facility of its kind dedicated to all levels of women's basketball.",
+  "imageUrl": "b64352c2-21c4-4c19-9f5e-15627020e3ac.jpeg",
+  "address": "700 S Hall of Fame Dr, Knoxville, TN 37915",
+  "coordinates": {
+    "lat": 35.9632495,
+    "lng": -83.9111314
+  },
+  "createdBy": {
+    "$oid": "650a56cb43b4a2449dc8aaa8"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T02:40:37.743Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650ab650cd3f3a90668138a5"
+  },
+  "title": "Zoo Knoxville",
+  "description": "Zoo Knoxville, formerly known as the Knoxville Zoo or Knoxville Zoological Gardens, is a 53-acre zoo located just east of downtown Knoxville, Tennessee, United States, near exit 392 off Interstate 40. The zoo is home to about 1,200 animals and welcomes over 585,000 visitors each year",
+  "imageUrl": "a604a2c3-2dea-4d72-a860-733c988c681c.jpeg",
+  "address": "3500 Knoxville Zoo Dr, Knoxville, TN 37914",
+  "coordinates": {
+    "lat": 35.9988874,
+    "lng": -83.8892193
+  },
+  "createdBy": {
+    "$oid": "650a582343b4a2449dc8aaba"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:07:28.574Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650ab6cecd3f3a90668138ab"
+  },
+  "title": "Knoxville Museum of Art",
+  "description": "The Knoxville Museum of Art, is an art museum in Knoxville, Tennessee. It specializes in historical and contemporary art pieces from the East Tennessee region.",
+  "imageUrl": "e14fcdfd-44e1-40e9-82bf-9574f8fd5ac0.jpeg",
+  "address": "1050 Worlds Fair Park Dr, Knoxville, TN 37916",
+  "coordinates": {
+    "lat": 35.962425,
+    "lng": -83.9252132
+  },
+  "createdBy": {
+    "$oid": "650a582343b4a2449dc8aaba"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:09:34.798Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650ab772cd3f3a90668138b9"
+  },
+  "title": "Neyland Stadium",
+  "description": "Neyland Stadium, is a sports stadium in Knoxville, Tennessee, United States. It serves primarily as the home of the Tennessee Volunteers football team, but is also used to host large conventions and has been a site for several National Football League exhibition games. The stadium's official capacity is 101,915.",
+  "imageUrl": "28889cee-1b44-4f56-a7c5-40c8ae8d57d6.jpeg",
+  "address": "1300 Phillip Fulmer Way, Knoxville, TN 37916",
+  "coordinates": {
+    "lat": 35.9547328,
+    "lng": -83.92562699999999
+  },
+  "createdBy": {
+    "$oid": "650a5430d41cb82622d1351f"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:12:18.034Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650ab7d9cd3f3a90668138c1"
+  },
+  "title": "Tennessee Theatre",
+  "description": "The Tennessee Theatre is a movie palace in downtown Knoxville, Tennessee. The theater was built in 1928 in the 1908 Burwell Building, considered Knoxville's first skyscraper.",
+  "imageUrl": "cff13b4f-f077-40eb-8c48-9e25c7fadddc.jpeg",
+  "address": "604 S Gay St, Knoxville, TN 37902",
+  "coordinates": {
+    "lat": 35.9641794,
+    "lng": -83.9174109
+  },
+  "createdBy": {
+    "$oid": "650a588f43b4a2449dc8aac6"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:14:01.294Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650ab84bcd3f3a90668138c9"
+  },
+  "title": "James White Fort Association",
+  "description": "Non-profit organization in Knoxville, Tennessee\r\n",
+  "imageUrl": "8cc1355d-ab2a-4710-9094-90140ef20036.jpeg",
+  "address": "205 E Hill Ave, Knoxville, TN 37915",
+  "coordinates": {
+    "lat": 35.9627858,
+    "lng": -83.9120452
+  },
+  "createdBy": {
+    "$oid": "650a575b43b4a2449dc8aaae"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:15:55.411Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650ab8b9cd3f3a90668138cf"
+  },
+  "title": "McClung Museum of Natural History & Culture",
+  "description": "The McClung Museum of Natural History and Culture is a museum located on the campus of the University of Tennessee in Knoxville. Built in 1963, exhibits focus on natural history, archaeology, anthropology, decorative arts, and local history.",
+  "imageUrl": "df8c12b2-aef8-4442-82b4-80a45afc7692.jpeg",
+  "address": "1327 Cir Park Dr, Knoxville, TN 37996",
+  "coordinates": {
+    "lat": 35.9519901,
+    "lng": -83.927207
+  },
+  "createdBy": {
+    "$oid": "650a575b43b4a2449dc8aaae"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:17:45.735Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650ab958cd3f3a90668138f2"
+  },
+  "title": "Clarence Brown Theatre",
+  "description": "University of Tennessee performance space staging contemporary & classic productions.",
+  "imageUrl": "da7a49b0-cf1d-4f6d-8f19-a7f50a545f51.jpeg",
+  "address": "1714 Andy Holt Ave, Knoxville, TN 37916",
+  "coordinates": {
+    "lat": 35.9532175,
+    "lng": -83.930628
+  },
+  "createdBy": {
+    "$oid": "64fc4de8c18a15b03ff6b8b1"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:20:24.270Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650abb2fcd3f3a906681390b"
+  },
+  "title": "Clarence Brown Theatre",
+  "description": "University of Tennessee performance space staging contemporary & classic productions.",
+  "imageUrl": "d9f4e3f9-bfde-4adc-babd-7fd4fd64a033.jpeg",
+  "address": "1714 Andy Holt Ave, Knoxville, TN 37916",
+  "coordinates": {
+    "lat": 35.9532175,
+    "lng": -83.930628
+  },
+  "createdBy": {
+    "$oid": "650a57a043b4a2449dc8aab4"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:28:15.359Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650abb56cd3f3a9066813914"
+  },
+  "title": "Women's Basketball Hall of Fame",
+  "description": "The Women's Basketball Hall of Fame honors those who have contributed to the sport of women's basketball. The Hall of Fame opened in 1999 in Knoxville, Tennessee, USA. It is the only facility of its kind dedicated to all levels of women's basketball.",
+  "imageUrl": "9fc3de58-9340-40f1-bd22-3812c6bea745.jpeg",
+  "address": "700 S Hall of Fame Dr, Knoxville, TN 37915",
+  "coordinates": {
+    "lat": 35.9632495,
+    "lng": -83.9111314
+  },
+  "createdBy": {
+    "$oid": "650a57a043b4a2449dc8aab4"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:28:54.738Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "650abbeacd3f3a906681391a"
+  },
+  "title": "World's Fair Park",
+  "description": "World's Fair Park is a public park in downtown Knoxville, Tennessee. The park sits on the former fairgrounds of the 1982 World's Fair hosted in Knoxville. Today, the park is home to the Sunsphere and the Tennessee Amphitheater, the two remaining structures from the exposition.",
+  "imageUrl": "554f2eed-7247-4db2-9833-f305033ddbed.jpeg",
+  "address": "525 Henley St, Knoxville, TN 37902",
+  "coordinates": {
+    "lat": 35.9626973,
+    "lng": -83.9226652
+  },
+  "createdBy": {
+    "$oid": "650a57a043b4a2449dc8aab4"
+  },
+  "createdAt": {
+    "$date": "2023-09-20T09:31:22.728Z"
+  },
+  "updatedBy": null,
+  "lastUpdated": {
+    "$date": "2023-09-20T02:36:47.219Z"
+  },
+  "isActive": true,
+  "__v": 0
+}]

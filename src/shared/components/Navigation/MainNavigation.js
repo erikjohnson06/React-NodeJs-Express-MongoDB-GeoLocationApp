@@ -39,7 +39,7 @@ const MainNavigation = props => {
                 <Link to="/">
                 <div className="main-navigation__logo">
                     <img
-                        src="/logo.png"
+                        src={`${process.env.PUBLIC_URL}/logo.png`}
                         alt="Logo"
                     />
                 </div>

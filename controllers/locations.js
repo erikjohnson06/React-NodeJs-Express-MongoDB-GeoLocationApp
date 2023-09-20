@@ -87,7 +87,7 @@ const createLocation = async (request, response, next) => {
 
     //Remove the directory prefix
     if (image){
-        image = image.replace('uploads\\images\\', '');
+        image = image.replace('uploads\\images\\locations\\', '');
     }
 
     try {
@@ -203,7 +203,7 @@ const deleteLocationById = async (request, response, next) => {
             return next(new HttpError('You are not permitted to delete this location', 401));
         }
 
-        imagePath = 'uploads\\images\\' + location.imageUrl;
+        imagePath = 'uploads\\images\\locations\\' + location.imageUrl;
 
         await location.deleteOne();
 

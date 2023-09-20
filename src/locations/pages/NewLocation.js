@@ -43,16 +43,15 @@ const NewLocation = props => {
     const navigate = useNavigate();
 
     const locationSubmitHandler = async event => {
+        
         event.preventDefault();
-        console.log(formState.inputs);
 
         try {
-            console.log("image: ", formState.inputs.image.value);
+
             const formData = new FormData();
             formData.append('title', formState.inputs.title.value);
             formData.append('description', formState.inputs.description.value);
             formData.append('address', formState.inputs.address.value);
-            //formData.append('createdBy', auth.userId);
             formData.append('image', formState.inputs.image.value);
 
             await sendRequest(

@@ -1,6 +1,5 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-
 export const useHttpClient = () => {
 
     const [isLoading, setIsLoading] = useState(false);
@@ -19,41 +18,36 @@ export const useHttpClient = () => {
         try {
 
             const response = await fetch(url, {
-                method : method,
-                body : body,
-                headers : headers,
+                method: method,
+                body: body,
+                headers: headers,
                 signal: httpAbortController.signal
             });
 
-            console.log(response);
-
             const data = await response.json();
-            console.log(data);
 
             //Remove this request from the activeHttpRequests controller
             activeHttpRequests.current = activeHttpRequests.current.filter(
                     requestCtrl => requestCtrl !== httpAbortController
-                    );
+            );
 
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error(data.message);
             }
 
             setIsLoading(false);
             return data;
-        }
-        catch(e){
-            console.log(e);
+        } catch (e) {
+            console.error(e);
 
             //Ignore Abort errors
-            if (e.name !== 'AbortError'){
+            if (e.name !== 'AbortError') {
                 setHasError(e.message || 'Whoops.. an unknown error has occurred.');
                 throw e;
             }
-        }
-        finally {
+        } finally {
             setIsLoading(false);
-        }
+    }
     }, []);
 
     const clearError = () => {
@@ -63,11 +57,11 @@ export const useHttpClient = () => {
     //Clean up function to cancel any ongoing request that is no longer needed
     useEffect(() => {
         return () => {
-            if (activeHttpRequests.current){
+            if (activeHttpRequests.current) {
                 activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
             }
         };
     }, []);
 
-    return { isLoading, hasError, sendRequest, clearError };
+    return {isLoading, hasError, sendRequest, clearError};
 };

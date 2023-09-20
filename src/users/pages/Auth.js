@@ -66,8 +66,8 @@ const Auth = () => {
     };
 
     const authSubmitHandler = async event => {
+        
         event.preventDefault();
-        console.log(formState.inputs);
 
         if (isLoginMode){
 
@@ -84,12 +84,11 @@ const Auth = () => {
                         'Content-Type': 'application/json'
                     }
                 );
-                console.log("response.userId: ", response.userId);
-                console.log("response.token: ", response.token);
+
                 auth.login(response.userId, response.token);
             }
             catch(e){
-                console.log(e);
+                console.error(e);
             }
         }
         else {
@@ -102,20 +101,16 @@ const Auth = () => {
                 formData.append('password', formState.inputs.password.value);
                 formData.append('image', formState.inputs.image.value);
 
-                console.log("formState.inputs: ", formState.inputs);
-
                 const response = await sendRequest(
                     process.env.REACT_APP_API_URL + '/users/signup',
                     'POST',
                     formData
                 );
 
-                console.log("response: ", response);
-                console.log("response.token: ", response.token);
                 auth.login(response.userId, response.token);
             }
             catch(e){
-                console.log(e);
+                console.error(e);
             }
         }
     };

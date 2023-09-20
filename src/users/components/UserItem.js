@@ -7,13 +7,12 @@ import './UserItem.css';
 
 const UserItem = props => {
 
-    //console.log("UserItem props:", props);
     return (
         <li className="user-item">
             <Card className="user-item__content">
                 <Link to={`/${props.id}/locations`}>
                     <div className="user-item__image">
-                        <Avatar image={`${process.env.REACT_APP_ASSET_URL}/uploads/images/${props.image}`} alt={props.name} />
+                        <Avatar image={`${process.env.REACT_APP_ASSET_URL}/uploads/images/users/${props.image}`} alt={props.name} />
                     </div>
                     <div className="user-item__info">
                         <h2>{props.name}</h2>

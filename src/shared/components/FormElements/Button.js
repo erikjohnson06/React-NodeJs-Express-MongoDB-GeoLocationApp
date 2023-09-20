@@ -4,11 +4,15 @@ import { Link } from 'react-router-dom';
 import './Button.css';
 
 const Button = props => {
+
+    let className = `button button--${props.size || 'default'}`;
+    className += (props.inverse ? ' button--inverse'  : '');
+    className += (props.danger ? ' button--danger' : '');
+
     if (props.href) {
         return (
                 <a
-                    className={`button button--${props.size || 'default'} ${props.inverse &&
-                                'button--inverse'} ${props.danger && 'button--danger'}`}
+                    className={className}
                     href={props.href}
                     >
                     {props.children}
@@ -16,12 +20,12 @@ const Button = props => {
                 );
     }
     if (props.to) {
+
         return (
                 <Link
                     to={props.to}
                     exact={props.exact}
-                    className={`button button--${props.size || 'default'} ${props.inverse &&
-                                'button--inverse'} ${props.danger && 'button--danger'}`}
+                    className={className}
                     >
                 {props.children}
                 </Link>
@@ -29,8 +33,7 @@ const Button = props => {
     }
     return (
             <button
-                className={`button button--${props.size || 'default'} ${props.inverse &&
-                            'button--inverse'} ${props.danger && 'button--danger'}`}
+                className={className}
                 type={props.type}
                 onClick={props.onClick}
                 disabled={props.disabled}

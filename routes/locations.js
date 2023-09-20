@@ -18,7 +18,7 @@ router.get('/user/:userId', locationsController.getLocationsByUserId);
 router.use(checkAuth);
 
 router.post('/',
-        fileUpload.single('image'),
+        fileUpload('locations').single('image'),
         [
             check('title').not().isEmpty(),
             check('description').isLength({min: 5}),

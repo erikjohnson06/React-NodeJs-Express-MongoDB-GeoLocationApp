@@ -21,11 +21,11 @@ const Map = props => {
         });
     }, [center, zoom]);
 
-
-
     return (
-            <div ref={mapRef} className={`map ${props.className}`} style={props.style}>
-
+            <div
+                ref={mapRef}
+                className={`map ${props.className}`}
+                style={props.style}>
             </div>
             );
 };
