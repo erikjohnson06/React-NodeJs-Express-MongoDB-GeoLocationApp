@@ -14,7 +14,6 @@ allow users to authenticate, share a location with other users and view those lo
 * Google Maps (Map and Geocoding API)
 * Custom React hooks
 * MVC design
-* Express Middleware security: helmet, xss-clean, express-rate-limit, express-mongo-sanitize
 
 ## Notes
 MongoDB database dump included in "db" directory for import. Login with username "test@example.com" and password "test12345". Alternatively, remove ".example" from the
